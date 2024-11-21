@@ -1,0 +1,19 @@
+<script lang="ts">
+	export let size: number = 16;
+	export let color: string = 'currentColor';
+</script>
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 16 16"
+	width={size}
+	height={size}
+	fill={color}
+	aria-hidden="true"
+>
+	<path
+		fill-rule="evenodd"
+		clip-rule="evenodd"
+		d="M2 7.25H2.75H13.25H14V8.75H13.25H2.75H2V7.25Z"
+	/>
+</svg>
