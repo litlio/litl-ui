@@ -2,6 +2,8 @@
     import type { Component } from 'svelte';
 	import Error from '../icons/Error.svelte';
 	import { randomString } from '../utils/random.js';
+	import type { FullAutoFill } from 'svelte/elements';
+
 
 	type propsT = {
 		type?: 'text' | 'number' | 'email' | 'password' | undefined;
@@ -19,6 +21,7 @@
 		spellcheck?: boolean | undefined;
 		placeholder?: string | undefined;
 		disabled?: boolean | undefined;
+		autocomplete?: FullAutoFill | null | undefined;
 	};
 	let {
 		type = 'text',
@@ -35,7 +38,8 @@
 		suffixStyling = true,
 		spellcheck = false,
 		placeholder = undefined,
-		disabled = false
+		disabled = false,
+		autocomplete = undefined
 	}: propsT = $props();
 
 	let hasRing = $state(false);
@@ -173,6 +177,7 @@
 					{spellcheck}
 					{placeholder}
 					{disabled}
+					autocomplete={autocomplete}
 					onfocus={() => {
 						hasRing = true;
 					}}
