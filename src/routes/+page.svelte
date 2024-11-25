@@ -113,16 +113,16 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-700">Button Types</h3>
             <div class="inline-flex gap-4">
-            <Button type="secondary">Button</Button>
-            <Button type="outline">Button</Button>
-            <Button type="ghost">Button</Button>
-            <Button type="link">Button</Button>
-            <Button type="error">Button</Button>
-            <Button type="warning">Button</Button>
+            <Button variant="secondary">Button</Button>
+            <Button variant="outline">Button</Button>
+            <Button variant="ghost">Button</Button>
+            <Button variant="link">Button</Button>
+            <Button variant="error">Button</Button>
+            <Button variant="warning">Button</Button>
             </div>
             <h3 class="text-lg font-semibold text-gray-700">Button Shapes</h3>
             <div class="inline-flex gap-4">
-            <Button aria-label="Upload" shape="square" size="tiny" type="ghost">
+            <Button aria-label="Upload" shape="square" size="tiny" variant="ghost">
                 <div class="w-[16px] h-[16px]">
                     <ChevronDown/>
                 </div>
@@ -134,7 +134,7 @@
                 </div>
             </Button>
         
-            <Button aria-label="Upload" shape="square" type="outline">
+            <Button aria-label="Upload" shape="square" variant="outline">
                 <div class="w-[16px] h-[16px]">
                     <ChevronDown/>
                 </div>
@@ -178,10 +178,10 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-700">Button Rounded</h3>
             <div class="inline-flex gap-4">
-            <Button size="tiny" type="secondary" rounded>upload</Button>
-            <Button size="small" type="secondary" rounded>upload</Button>
-            <Button type="secondary" rounded>upload</Button>
-            <Button size="large" type="secondary" rounded>upload</Button>
+            <Button size="tiny" variant="secondary" rounded>upload</Button>
+            <Button size="small" variant="secondary" rounded>upload</Button>
+            <Button variant="secondary" rounded>upload</Button>
+            <Button size="large" variant="secondary" rounded>upload</Button>
             </div>
             <h3 class="text-lg font-semibold text-gray-700">Button Disabled</h3>
             <div class="inline-flex gap-4">
@@ -213,7 +213,7 @@
                     <p class="text-neutral-950 dark:text-white">This is the main content of the card. Add your content here.</p>
                 </Card.Content>
                 <Card.Footer>
-                <Button type="outline">Cancel</Button>
+                <Button variant="outline">Cancel</Button>
                 <Button>Submit</Button>
                 </Card.Footer>
             </Card.Root>
@@ -359,7 +359,7 @@
                     <Modal.Text>Some content contained within the modal.</Modal.Text>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onclick={() => (active = false)} type="secondary">Cancel</Button>
+                    <Button onclick={() => (active = false)} variant="secondary">Cancel</Button>
                     <Button onclick={() => (active = false)}>Submit</Button>
                     </Modal.Footer>
                 </Modal.Content>
@@ -392,7 +392,7 @@
                 }
                 }}
                 size="small"
-                type="secondary">Decrease</Button>
+                variant="secondary">Decrease</Button>
             </div>
 
             <div class="w-full space-y-6">
@@ -492,7 +492,7 @@
                 </Card.Content>
                 <Separator margin="xl"/>
                 <Card.Footer>
-                    <Button type="ghost">Cancel</Button>
+                    <Button variant="ghost">Cancel</Button>
                     <Button>Submit</Button>
                 </Card.Footer>
             </Card.Root>

@@ -9,12 +9,13 @@
 		'aria-label'?: string;
 		shape?: 'circle' | 'square' | undefined;
 		size?: 'tiny' | 'small' | 'medium' | 'large';
-		type?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'error' | 'warning';
+		variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'error' | 'warning';
 		prefix?: Component | undefined;
 		suffix?: Component | undefined;
 		rounded?: boolean;
 		loading?: boolean;
 		disabled?: boolean;
+		type?: 'button' | 'submit' | 'reset';
 		children: Snippet;
 	};
 
@@ -24,12 +25,13 @@
 		'aria-label': ariaLabel = undefined,
 		shape = undefined,
 		size = 'medium',
-		type = 'primary',
+		variant = 'primary',
 		prefix = undefined,
 		suffix = undefined,
 		rounded = false,
 		loading = false,
 		disabled = false,
+		type = 'button',
 		children
 	}: propsT = $props();
 
@@ -87,7 +89,7 @@
 };
 
 	let typeClass = $derived.by(() => {
-		return typeObj[type];
+		return typeObj[variant];
 	});
 
 	let roundedStyle = $derived.by(() => {
@@ -164,7 +166,7 @@
 {/snippet}
 
 {#snippet mainButton()}
-	<button aria-label={ariaLabel} {onclick} type="button" {disabled} class="{buttonClass} ">
+	<button aria-label={ariaLabel} {onclick} type={type} {disabled} class="{buttonClass} ">
 		<div class="w-full h-full px-[6px] flex items-center justify-center gap-[8px]">
 			{@render prefixSnip()}
 			<span class="font-medium first-letter:capitalize">
@@ -176,7 +178,7 @@
 {/snippet}
 
 {#snippet withShape()}
-	<button aria-label={ariaLabel} {onclick} type="button" {disabled} class="{buttonClass} ">
+	<button aria-label={ariaLabel} {onclick} type={type} {disabled} class="{buttonClass} ">
 		<div class="w-full h-full flex items-center justify-center">
 			<span class="font-medium first-letter:capitalize">
 				{@render children()}
