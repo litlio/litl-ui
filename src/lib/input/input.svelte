@@ -162,7 +162,7 @@
 {#snippet inputSnip()}
 	<div>
 		<div
-			class="flex items-center {sizeClass} overflow-hidden transition-all border {ringClass} rounded-[6px] bg-kui-light-bg
+			class="flex items-center {sizeClass} overflow-hidden transition-all border {ringClass} rounded-[6px] bg-transparent
 			dark:bg-neutral-800"
 		>
 			{@render prefixSnip()}

@@ -33,7 +33,7 @@
         requiredSymbol = "*",
         autoResize = false,
         resize = true,
-        value = '',
+        value = $bindable(''),
         placeholder = "",
         disabled = false,
         onInput = () => {},
