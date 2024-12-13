@@ -6,8 +6,8 @@
   
     let { img, name, details, detail = false, href, size = 32 } = props;
   
-    let shortName = $derived.by(() => getShortName(name));
-  
+    let shortName = $derived.by(() => getShortName(props.name));
+
     let avatarClasses = $derived.by(() => `
       inline-flex place-items-center gap-2 rounded-full overflow-hidden
       ${img ? '' : 'bg-neutral-200 border border-neutral-200 dark:bg-neutral-800 dark:border-neutral-800'}
