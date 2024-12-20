@@ -92,7 +92,7 @@
 	<button
 		disabled={disabled || tab.disabled}
 		onclick={() => (selected = tab.value)}
-		class="flex items-center justify-center gap-x-[6px] transition-all text-xs {tabButtonFunc(
+		class="flex items-center justify-center gap-x-[6px] transition-all text-sm font-medium {tabButtonFunc(
 			isActive,
 			disabled,
 			tab.disabled
@@ -110,18 +110,20 @@
 	</button>
 {/snippet}
 
-<div class="w-full flex items-center {contClass}">
-	{#if tabs}
-		{#each tabs as tab}
-			<div class="mb-[-1px]">
-				{#if tab.disabled}
-					<Tooltip text={tab.tooltip}>
+<div class="flex justify-center">
+	<div class="inline-flex items-center {contClass}">
+		{#if tabs}
+			{#each tabs as tab}
+				<div class="mb-[-1px]">
+					{#if tab.disabled}
+						<Tooltip text={tab.tooltip}>
+							{@render tabButton(isSelected(tab.value), tab)}
+						</Tooltip>
+					{:else}
 						{@render tabButton(isSelected(tab.value), tab)}
-					</Tooltip>
-				{:else}
-					{@render tabButton(isSelected(tab.value), tab)}
-				{/if}
-			</div>
-		{/each}
-	{/if}
+					{/if}
+				</div>
+			{/each}
+		{/if}
+	</div>
 </div>

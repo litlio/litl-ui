@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Check from '../icons/Check.svelte';
-	import Minus from '../icons/Minus.svelte';
+	import Check from 'lucide-svelte/icons/check';
+	import Minus from 'lucide-svelte/icons/minus';
 	import { randomString } from '../utils/random.js';
 	import type { Snippet } from 'svelte';
 
@@ -100,9 +100,9 @@
 				/>
 				<div class="w-[16px] h-[16px] font-bold transition-colors ease-in {checkboxClass}">
 					{#if indeterminate}
-						<Minus />
+						<Minus size={16} />
 					{:else}
-						<Check />
+						<Check size={16} />
 					{/if}
 				</div>
 			</div>

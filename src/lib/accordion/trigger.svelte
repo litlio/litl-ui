@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChevronDown from "../icons/ChevronDown.svelte";
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 	import { getContext, type Snippet } from 'svelte';
 
 	type propsT = {
@@ -67,7 +67,7 @@
 	{/if}
 	<div class="">
 		<div class="w-[16px] h-[16px] {rotate} transform-gpu duration-200 text-neutral-950 dark:text-white">
-			<ChevronDown />
+			<ChevronDown size={16} />
 		</div>
 	</div>
 </button>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChevronDown from '../icons/ChevronDown.svelte';
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 	import { getContext } from 'svelte';
 
 	type propsT = {
@@ -20,6 +20,6 @@
 >
 <div class="w-[16px] h-[16px] flex items-center justify-center">
 	<div class="w-[16px] h-[16px] text-neutral-900 hover:text-neutral-950 dark:text-neutral-500 hover:dark:text-neutral-500 transform duration-300 {rotate}">
-		<ChevronDown/>
+		<ChevronDown size={16}/>
 	</div>
 </div>

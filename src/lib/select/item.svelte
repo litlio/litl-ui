@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChevronDown from '../icons/ChevronDown.svelte';
+	import Check from 'lucide-svelte/icons/check';
 	import { getContext, type Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -30,7 +30,7 @@
 		<div transition:fade class="absolute right-2">
 			<div class="w-full h-full flex items-center justify-center">
 				<div class="w-[14px] h-[14px] text-neutral-950 dark:text-neutral-200">
-					<ChevronDown />
+					<Check size={16} />
 				</div>
 			</div>
 		</div>

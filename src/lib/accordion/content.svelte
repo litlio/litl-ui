@@ -36,7 +36,7 @@
 	<div transition:slide class="pb-4">
 		{#if children}
 			<p
-				class=" {textClass} font-normal leading-[24px] text-neutral-950 dark:text-white"
+				class=" {textClass} font-normal leading-[24px] text-neutral-500 dark:text-white"
 			>
 				{@render children()}
 			</p>

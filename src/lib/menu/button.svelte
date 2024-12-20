@@ -6,7 +6,7 @@
 		'aria-label'?: string;
 		shape?: 'circle' | 'square' | undefined;
 		size?: 'tiny' | 'small' | 'medium' | 'large';
-		type?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'error' | 'warning';
+		variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'error' | 'warning';
 		prefix?: Component | undefined;
 		suffix?: Component | undefined;
 		rounded?: boolean;
@@ -14,7 +14,7 @@
 		disabled?: boolean;
 		children: Snippet | undefined;
 	};
-	let { class: klass = '', type = 'primary', children, ...attributes }: propsT = $props();
+	let { class: klass = '', variant = 'primary', children, ...attributes }: propsT = $props();
 
 	const rootState = getContext<{
 		getIsActive: () => boolean;
@@ -44,7 +44,7 @@
 </script>
 
 {#if children}
-	<Button {...attributes} class={klass} type={type} onclick={toogle}>
+	<Button {...attributes} class={klass} variant={variant} onclick={toogle}>
 		{@render children()}
 	</Button>
 {/if}

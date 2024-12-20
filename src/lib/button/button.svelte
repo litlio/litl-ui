@@ -36,16 +36,16 @@
 	}: propsT = $props();
 
 	const sizeObj = {
-		tiny: 'h-[24px] text-xs leading-3',
+		tiny: 'h-[28px] px-[2px] text-xs leading-3',
 		small: 'h-[32px] px-[6px] text-sm leading-4',
-		medium: 'h-[40px] px-[10px] text-sm leading-[20px]',
-		large: 'h-[48px] px-[14px] text-base leading-[24px]'
+		medium: 'h-[36px] px-[10px] text-sm leading-[20px]',
+		large: 'h-[40px] px-[14px] text-base leading-[24px]'
 	};
 	const shapeSizeObj = {
-		tiny: `w-[24px] ${sizeObj.tiny} `,
+		tiny: `w-[28px] ${sizeObj.tiny} `,
 		small: `w-[32px] ${sizeObj.small} `,
-		medium: `w-[40px] ${sizeObj.medium} `,
-		large: `w-[48px] ${sizeObj.large} `
+		medium: `w-[36px] ${sizeObj.medium} `,
+		large: `w-[40px] ${sizeObj.large} `
 	};
 	let sizeClass = $derived.by(() => {
 		if (shape) {
@@ -81,7 +81,7 @@
 	link: `text-neutral-950 dark:text-white hover:underline 
     hover:underline`,
 
-    error: `text-white bg-red-600 dark:bg-red-600 
+    error: `text-destructive-foreground bg-destructive dark:bg-red-600 
     hover:brightness-120`,
 
     warning: `text-neutral-950 bg-amber-500 dark:bg-amber-600 
@@ -96,14 +96,14 @@
 		if (rounded) {
 			return 'rounded-full';
 		}
-		return 'rounded-[5px]';
+		return 'rounded-[7px]';
 	});
 
 	const radiusObj = {
-		tiny: 'rounded-[3px]',
-		small: 'rounded-[5px]',
-		medium: 'rounded-[6px]',
-		large: 'rounded-[7px]'
+		tiny: 'rounded-[6px]',
+		small: 'rounded-[7px]',
+		medium: 'rounded-[8px]',
+		large: 'rounded-[9px]'
 	};
 	let roundedWithShapeStyle = $derived.by(() => {
 		if (shape == 'circle') {
@@ -169,7 +169,7 @@
 	<button aria-label={ariaLabel} {onclick} type={type} {disabled} class="{buttonClass} ">
 		<div class="w-full h-full px-[6px] flex items-center justify-center gap-[8px]">
 			{@render prefixSnip()}
-			<span class="font-medium first-letter:capitalize">
+			<span class="font-normal first-letter:capitalize">
 				{@render children()}
 			</span>
 			{@render suffixSnip()}
@@ -180,7 +180,7 @@
 {#snippet withShape()}
 	<button aria-label={ariaLabel} {onclick} type={type} {disabled} class="{buttonClass} ">
 		<div class="w-full h-full flex items-center justify-center">
-			<span class="font-medium first-letter:capitalize">
+			<span class="font-normal first-letter:capitalize">
 				{@render children()}
 			</span>
 		</div>
