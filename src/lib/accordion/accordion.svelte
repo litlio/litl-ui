@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
-	import ChevronRight from '../icons/ChevronRight.svelte';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 
 	let { code }: { code: string } = $props();
 
@@ -21,7 +21,7 @@
 >
 	<div class="flex items-center gap-x-2">
 		<div class="w-[16px] h-[16px] {rotate180} transform-gpu duration-200">
-			<ChevronRight />
+			<ChevronRight size={16} />
 		</div>
 		<span class="text-sm font-normal leading-[20px] first-letter:capitalize">{title}</span>
 	</div>

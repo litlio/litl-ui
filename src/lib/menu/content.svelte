@@ -35,7 +35,7 @@
 			class="fixed bottom-0 left-0 w-full rounded-t-[15px] bg-neutral-200 dark:bg-neutral-200 lg:bg-transparent z-[1001]"
 		>
 			<div
-				class="hide-scrollbar bg-neutral-100 dark:bg-neutral-800 px-3 rounded-t-[15px] border-t
+				class="hide-scrollbar bg-neutral-100 dark:bg-neutral-950 px-3 rounded-t-[15px] border-t
 				border-neutral-200 dark:border-neutral-200 scroll-smooth overflow-y-auto"
 			>
 				{@render children()}
@@ -52,7 +52,7 @@
 			class="absolute {rootState.getContentPosition()} {alightmentClass} z-[1000] {klass}"
 		>
 			<div
-				class="hide-scrollbar bg-white dark:bg-neutral-800 p-2 rounded-[12px] border border-neutral-200 dark:border-neutral-700 shadow-sm scroll-smooth overflow-y-auto {klass}"
+				class="hide-scrollbar bg-white dark:bg-neutral-950 p-2 rounded-[12px] border border-neutral-200 dark:border-neutral-800 shadow-sm scroll-smooth overflow-y-auto {klass}"
 			>
 				{@render children()}
 			</div>

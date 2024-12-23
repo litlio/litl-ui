@@ -54,3 +54,8 @@ export type Octets = [number, number, number, number];
 export type IPV4Address =
 	| `${number}.${number}.${number}.${number}`
 	| `${number} ${number} ${number} ${number}`;
+
+export type IconProps = {
+	component: any;
+	props?: Record<string, any>;
+};

@@ -28,7 +28,6 @@
                 ${index % cols !== 0 ? "border-l" : ""}`}
         >
             <div class="flex flex-col gap-4 mx-auto">
-                <!-- Toggle компонент -->
                 <ScrollArea.Root height="300px" width="240px">
                     <ScrollArea.Viewport>
                         <ScrollArea.Content>
@@ -43,7 +42,6 @@
                     </ScrollArea.Viewport>
                 </ScrollArea.Root>
             </div>
-            <!-- Текст состояния -->
             <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
         </div>
         {/each}

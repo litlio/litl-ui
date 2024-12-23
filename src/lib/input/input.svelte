@@ -65,7 +65,7 @@
 
     let ringClass = $derived.by(() => {
         if (disabled) {
-            return `cursor-not-allowed border-input/80 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 placeholder-neutral-400 dark:placeholder-neutral-500`;
+            return `cursor-not-allowed border-input dark:border-input dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 placeholder-neutral-400 dark:placeholder-neutral-500`;
         }
         if (error) {
             return `border-destructive dark:border-destructive
@@ -203,7 +203,6 @@
         {/if}
     </div>
 {/snippet}
-
 
 <div>
     {#snippet inputLabel()}

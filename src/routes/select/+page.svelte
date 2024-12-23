@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Select } from "$lib/index.js";
 
-    // Массив данных для карточек
     let cards = [
         {
             id: 1,
@@ -38,7 +37,6 @@
         },
     ];
 
-    // Количество колонок в сетке
     const cols = 3;
 </script>
 
@@ -56,7 +54,6 @@
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Вывод компонента Select -->
                 <div class="flex items-center justify-center w-full">
                     <Select.Root size={card.size} class="w-full lg:w-auto">
                         <Select.Trigger class="w-full lg:w-[200px]">

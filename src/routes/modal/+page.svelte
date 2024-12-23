@@ -27,7 +27,6 @@
         <p class="text-muted-foreground">A collection of modal dropdown components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
@@ -35,7 +34,6 @@
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Вывод компонента -->
                 <div class="flex items-center justify-center w-full">
                 <Button onclick={() => (active = true)} size="small">Open Modal</Button>
                 <Modal.Root bind:active>

@@ -39,7 +39,6 @@
                 ${index % cols !== 0 ? "border-l" : ""}`}
         >
             <div class="flex flex-col gap-4 mx-auto">
-                <!-- Компонент -->
                 <ContextMenu.Root>
                     <ContextMenu.Trigger>
                         <div class="h-32 p-4 bg-neutral-50 dark:bg-neutral-700 rounded-md border-1 border-dashed border-neutral-300 flex items-center justify-center text-center">

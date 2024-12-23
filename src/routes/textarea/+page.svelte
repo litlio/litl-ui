@@ -58,7 +58,6 @@
         <p class="text-muted-foreground">A showcase of textarea components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class={`grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-0`}>
         {#each cards as card, index}
         <div
@@ -67,10 +66,8 @@
                 ${index % cols !== 0 ? "border-l" : ""}`}
         >
             <div class="flex flex-col gap-4 mx-auto">
-                <!-- Toggle компонент -->
                 <TextArea placeholder={card.placeholder} resize={card.resize} disabled={card.disabled} readonly={card.readonly} width={card.width} autoResize={card.autoResize} />
             </div>
-            <!-- Текст состояния -->
             <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
         </div>
         {/each}

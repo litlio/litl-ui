@@ -1,26 +1,21 @@
-import type { Component, Snippet } from 'svelte';
+import type { Snippet } from "svelte";
+import type { IconProps } from '$lib/types/ui.js';
 
 export type BadgeProps = {
   class?: string;
-  variant?:
+  color?: 
     | 'neutral'
-    | 'neutral-subtle'
     | 'blue'
-    | 'blue-subtle'
     | 'purple'
-    | 'purple-subtle'
     | 'amber'
-    | 'amber-subtle'
     | 'red'
-    | 'red-subtle'
     | 'pink'
-    | 'pink-subtle'
     | 'green'
-    | 'green-subtle'
-    | 'teal'
-    | 'teal-subtle'
-    | 'inverted';
+    | 'teal';
+  variant?: 'filled' | 'subtle' | 'outline' | 'inverted';
   size?: 'sm' | 'md' | 'lg';
-  icon?: Component | undefined;
+  icon?: IconProps | undefined;
+  rounded?: boolean;
+  number?: number;
   children: Snippet;
 };

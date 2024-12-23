@@ -3,7 +3,6 @@
     import Plus from 'lucide-svelte/icons/plus';
     import Bookmark from 'lucide-svelte/icons/bookmark';
 
-    // Массив данных для карточек
     let cards = [
         { id: 1, size: "medium" as const, content: "Button" },
         { id: 2, variant: "secondary" as const, content: "Button" },
@@ -11,16 +10,16 @@
         { id: 4, variant: "ghost" as const, content: "Button" },
         { id: 5, variant: "link" as const, content: "Button" },
         { id: 6, variant: "error" as const, content: "Button" },
-        { id: 7, variant: "ghost" as const, icon: Bookmark, ariaLabel: "Upload", shape: "square" as const, size: "medium" as const, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
-        { id: 8, variant: "outline" as const, icon: Plus, ariaLabel: "Upload", shape: "square" as const, size: "medium" as const, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
-        { id: 9, variant: "outline" as const, icon: Plus, ariaLabel: "Upload", shape: "circle" as const, size: "medium" as const, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
+        { id: 7, variant: "ghost" as const, shape: "square" as const, size: "medium" as const, ariaLabel: "Upload", content: Bookmark, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
+        { id: 8, variant: "outline" as const, shape: "square" as const, size: "medium" as const, ariaLabel: "Upload", content: Bookmark, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
+        { id: 9, variant: "outline" as const, shape: "circle" as const, size: "medium" as const, ariaLabel: "Upload",  content: Bookmark, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
         { id: 10, variant: "outline" as const, rounded: true, content: "Button" },
         { id: 11, disabled: true, content: "Button" },
         { id: 12, loading: true, content: "Button" },
-        { id: 6, variant: "error" as const, icon: Bookmark, iconProps: { size: 16, strokeWidth: 1.5, ariaHidden: true }, content: "Button" },
+        { id: 13, variant: "error" as const,prefix: { component: Bookmark, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } },content: "Button"},
+        { id: 14, variant: "outline" as const,suffix: { component: Plus, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } },content: "Button"}
     ];
 
-    // Количество колонок в сетке
     const cols = 3;
 </script>
 
@@ -30,15 +29,13 @@
         <p class="text-muted-foreground">A growing collection of over 51 button components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
-                class={`p-4 flex items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
+                class={`p-4 flex items-center justify-center border-neutral-300 dark:border-neutral-800
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Добавьте компонент внутрь этой карточки -->
                 <div class="flex items-center justify-center">
                     <Button 
                         variant={card.variant} 
@@ -48,15 +45,16 @@
                         rounded={card.rounded}
                         disabled={card.disabled}
                         loading={card.loading}
+                        prefix={card.prefix}
+                        suffix={card.suffix}
                     >
-                        {#if card.icon}
-                            <!-- Если указана иконка, отображаем её -->
-                            <svelte:component this={card.icon} {...card.iconProps} />   
-                        {:else}
-                            <!-- В противном случае отображаем текст -->
-                            {card.content}
-                        {/if}
+                    {#if typeof card.content === "function"}
+                    <svelte:component this={card.content} {...card.iconProps} />
+                    {:else}
+                        {card.content}
+                    {/if}
                     </Button>
+
                 </div>
             </div>
         {/each}

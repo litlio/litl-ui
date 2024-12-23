@@ -8,6 +8,8 @@
         { name: 'Button', href: '/button' },
         { name: 'Checkbox', href: '/checkbox' },
         { name: 'Input', href: '/input' },
+        { name: 'Input Search', href: '/input-search' },
+        { name: 'Input Otp', href: '/input-otp' },
         { name: 'Select', href: '/select' },
         { name: 'Accordion', href: '/accordion' },
         { name: 'Card', href: '/card' },
@@ -20,7 +22,8 @@
         { name: 'Context Menu', href: '/context-menu' },
         { name: 'Scroll Area', href: '/scroll-area' },
         { name: 'Separator', href: '/separator' },
-        { name: 'Tooltip', href: '/tooltip' }
+        { name: 'Tooltip', href: '/tooltip' },
+        { name: 'Test', href: '/test' },
     ];
 </script>
 
@@ -44,7 +47,7 @@
                 {#each menuItems as { name, href }}
                     <li>
                         <a href={href} 
-                           class="inline-flex w-full items-center justify-between whitespace-nowrap rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-semibold shadow-sm shadow-black/[0.04] ring-offset-background transition-colors hover:bg-white hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-14">
+                           class="inline-flex w-full items-center justify-between text-black dark:text-white whitespace-nowrap rounded-lg border border-neutral-200 bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-800 p-4 font-semibold shadow-sm shadow-black/[0.04] ring-offset-background transition-colors hover:bg-white dark:hover:bg-neutral-950 hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-14">
                             {name}
                             <!-- Иконка -->
                             <ArrowRight size={16} />

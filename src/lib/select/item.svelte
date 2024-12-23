@@ -23,7 +23,7 @@
 		rootState.setSelected(value);
 		rootState.setIsActive(false);
 	}}
-	class="relative w-full cursor-pointer bg-transparent transition-colors text-sm flex items-center rounded-sm py-1.5 px-2 hover:bg-neutral-100 hover:dark:bg-neutral-700"
+	class="relative w-full cursor-pointer bg-transparent transition-colors text-sm flex items-center rounded-sm py-1.5 px-2 hover:bg-neutral-100 hover:dark:bg-neutral-800"
 >
 	{#if rootState.getSelected() === value}
 		<!--Icon-->

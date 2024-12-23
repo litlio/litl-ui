@@ -4,7 +4,6 @@
 
     let dynamic = $state(0);
 
-    // Массив данных для карточек
     let cards = [
         {
             id: 1,
@@ -22,7 +21,6 @@
         },
     ];
 
-    // Количество колонок в сетке
     const cols = 3;
 </script>
 
@@ -32,7 +30,6 @@
         <p class="text-muted-foreground">A collection of progress dropdown components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
@@ -40,13 +37,11 @@
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Условие для обычных карточек -->
                 {#if card.type !== "dynamic"}
                     <div class="flex items-center justify-center w-full">
                         <Progress type={card.type} value={card.value} />
                     </div>
                 {:else}
-                    <!-- Условие для карточки с кнопками -->
                     <div class="flex flex-col items-center gap-4 w-full">
                         <Progress value={dynamic} />
                         <div class="flex items-center gap-4">

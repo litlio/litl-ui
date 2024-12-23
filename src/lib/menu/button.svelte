@@ -1,14 +1,20 @@
 <script lang="ts">
 	import Button from '../button/button.svelte';
 	import { getContext, type Component, type Snippet } from 'svelte';
+
+	type IconProps = {
+		component: any;
+		props?: Record<string, any>;
+	};
+
 	type propsT = {
 		class?: string | undefined;
 		'aria-label'?: string;
 		shape?: 'circle' | 'square' | undefined;
 		size?: 'tiny' | 'small' | 'medium' | 'large';
 		variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'error' | 'warning';
-		prefix?: Component | undefined;
-		suffix?: Component | undefined;
+		prefix?: Component | IconProps | undefined;
+		suffix?: Component | IconProps | undefined;
 		rounded?: boolean;
 		loading?: boolean;
 		disabled?: boolean;

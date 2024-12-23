@@ -102,7 +102,7 @@
         },
     ];
 
-    const cols = $state(4); // Установка количества колонок
+    const cols = $state(4);
 </script>
 
 <div class="container mx-auto p-4">
@@ -111,7 +111,6 @@
         <p class="text-muted-foreground">A showcase of tooltip components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${cols} gap-0`}>
         {#each cards as card, index}
         <div
@@ -120,7 +119,6 @@
                 ${index % cols !== 0 ? "border-l" : ""}`}
         >
             <div class="flex flex-col gap-4 mx-auto">
-                <!-- Компонент Tooltip -->
                 <Tooltip
                     text={card.tooltip.text}
                     position={card.tooltip.position}
@@ -137,7 +135,6 @@
                     {/if}
                 </Tooltip>
             </div>
-            <!-- Текст состояния -->
             <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
         </div>
         {/each}

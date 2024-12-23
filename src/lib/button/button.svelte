@@ -1,5 +1,6 @@
 <script lang="ts">
-	import LoaderCircle from '../icons/LoaderCircle.svelte';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import type { IconProps } from '$lib/types/ui.js';
 	import type { Component, Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -10,8 +11,8 @@
 		shape?: 'circle' | 'square' | undefined;
 		size?: 'tiny' | 'small' | 'medium' | 'large';
 		variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'error' | 'warning';
-		prefix?: Component | undefined;
-		suffix?: Component | undefined;
+		prefix?: Component | IconProps;
+		suffix?: Component | IconProps;
 		rounded?: boolean;
 		loading?: boolean;
 		disabled?: boolean;
@@ -81,7 +82,7 @@
 	link: `text-neutral-950 dark:text-white hover:underline 
     hover:underline`,
 
-    error: `text-destructive-foreground bg-destructive dark:bg-red-600 
+    error: `text-destructive-foreground bg-destructive dark:bg-destructive
     hover:brightness-120`,
 
     warning: `text-neutral-950 bg-amber-500 dark:bg-amber-600 
@@ -96,7 +97,7 @@
 		if (rounded) {
 			return 'rounded-full';
 		}
-		return 'rounded-[7px]';
+		return 'rounded-[8px]';
 	});
 
 	const radiusObj = {
@@ -139,30 +140,40 @@
 	{#if loading}
 		<div class="relative {iconSize} animate-spin flex items-center justify-center">
 			<div transition:fade class="absolute w-full h-full">
-				<LoaderCircle />
+				<LoaderCircle size={16}/>
 			</div>
 		</div>
 	{/if}
 {/snippet}
 
 {#snippet prefixSnip()}
-	{#if prefix}
-		{@const Prefix = prefix}
-		<div class="{iconSize} flex items-center justify-center">
-			<Prefix />
-		</div>
-	{:else if loading}
-		{@render spinner()}
-	{/if}
+    {#if typeof prefix === 'object' && prefix.component}
+        {@const IconComponent = prefix.component}
+        <div class="{iconSize} flex items-center justify-center">
+            <IconComponent {...prefix.props} />
+        </div>
+    {:else if typeof prefix === 'function'}
+        {@const Prefix = prefix}
+        <div class="{iconSize} flex items-center justify-center">
+            <Prefix />
+        </div>
+    {:else if loading}
+        {@render spinner()}
+    {/if}
 {/snippet}
 
 {#snippet suffixSnip()}
-	{#if suffix}
-		{@const Suffix = suffix}
-		<div class="{iconSize} flex items-center justify-center">
-			<Suffix />
-		</div>
-	{/if}
+    {#if typeof suffix === 'object' && suffix.component}
+        {@const IconComponent = suffix.component}
+        <div class="{iconSize} flex items-center justify-center">
+            <IconComponent {...suffix.props} />
+        </div>
+    {:else if typeof suffix === 'function'}
+        {@const Suffix = suffix}
+        <div class="{iconSize} flex items-center justify-center">
+            <Suffix />
+        </div>
+    {/if}
 {/snippet}
 
 {#snippet mainButton()}

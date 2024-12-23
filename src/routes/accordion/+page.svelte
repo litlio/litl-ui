@@ -22,7 +22,7 @@
         },
     ];
 
-    const cols = 2; // Установите количество колонок
+    const cols = 2;
 </script>
 
 <div class="container mx-auto p-4">
@@ -31,7 +31,6 @@
         <p class="text-muted-foreground">A showcase of accordion components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${cols} gap-0`}>
         {#each cards as card, index}
             <div

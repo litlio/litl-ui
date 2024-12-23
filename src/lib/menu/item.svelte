@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { getContext, type Component, type Snippet } from 'svelte';
 
+	type IconProps = {
+		component: any;
+		props?: Record<string, any>;
+	};
+
 	type propsT = {
 		onClick?: () => void | undefined;
-		prefix?: Component | undefined;
-		suffix?: Component | undefined;
+		prefix?: Component | IconProps | undefined;
+		suffix?: Component | IconProps | undefined;
 		type?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'error' | 'warning';
 		children: Snippet;
 	};
@@ -42,7 +47,12 @@
 </script>
 
 {#snippet prefixSnip()}
-	{#if prefix}
+	{#if typeof prefix === 'object' && prefix?.component}
+		{@const IconComponent = prefix.component}
+		<div class="w-[16px] h-[16px] flex items-center justify-center">
+			<IconComponent {...prefix.props} />
+		</div>
+	{:else if typeof prefix === 'function'}
 		{@const Prefix = prefix}
 		<div class="w-[16px] h-[16px] flex items-center justify-center">
 			<Prefix />
@@ -51,13 +61,19 @@
 {/snippet}
 
 {#snippet suffixSnip()}
-	{#if suffix}
+	{#if typeof suffix === 'object' && suffix?.component}
+		{@const IconComponent = suffix.component}
+		<div class="w-[16px] h-[16px] flex items-center justify-center">
+			<IconComponent {...suffix.props} />
+		</div>
+	{:else if typeof suffix === 'function'}
 		{@const Suffix = suffix}
 		<div class="w-[16px] h-[16px] flex items-center justify-center">
 			<Suffix />
 		</div>
 	{/if}
 {/snippet}
+
 
 <button
 	onclick={() => {
@@ -67,7 +83,7 @@
 		rootState.setIsActive(false);
 	}}
 	class="relative w-full cursor-pointer bg-transparent transition-colors text-sm flex items-center gap-2 {isSuffixClass} rounded-md 
-	py-3.5 lg:py-2.5 px-2 hover:bg-neutral-100 hover:dark:bg-neutral-700 {typeClass}"
+	py-3.5 lg:py-2.5 px-2 hover:bg-neutral-100 hover:dark:bg-neutral-800 {typeClass}"
 >
 	{@render prefixSnip()}
 	<span class="first-letter:capitalize ">

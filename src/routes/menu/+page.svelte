@@ -1,56 +1,82 @@
 <script lang="ts">
     import { Menu } from "$lib/index.js";
-	import { Content } from "$lib/menu/index.js";
+    import Avatar from "$lib/avatar/avatar.svelte";
+    import Plus from 'lucide-svelte/icons/plus';
+    import Settings from 'lucide-svelte/icons/settings';
+    import Logout from 'lucide-svelte/icons/log-out';
 
-    // Массив данных для карточек
-    let cards = [
+    type MenuCard = {
+    id: number;
+    action: 
+        | { component: typeof Avatar | typeof Plus | typeof Settings; props: any } 
+        | string;
+    buttonProps: Record<string, any>;
+    items: { link: string; value: string; prefix?: any; suffix?: any }[];
+    state: string;
+};
+
+
+    let user = {
+        name: "John Doe",
+        img: "https://randomuser.me/api/portraits/men/32.jpg",
+        size: 40,
+    };
+
+    let cards: MenuCard[] = [
         {
             id: 1,
-            action: "Fruits",
+            action: "Button",
+            buttonProps: { 'aria-label': 'Menu', size: 'medium'},
             items: [
-                { link: "#", value: "Apple" },
-                { link: "#", value: "Banana" },
-                { link: "#", value: "Mango" },
-                { link: "#", value: "Orange" },
+                { link: "#settings", value: "Settings" },
+                { link: "#logout", value: "Logout" },
             ],
+            state: "Circle Menu",
+        },
+        {
+            id: 1,
+            action: { component: Plus, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
+            buttonProps: { 'aria-label': 'Menu', shape: 'circle', size: 'medium', variant: 'outline' },
+            items: [
+                { link: "#settings", value: "Settings" },
+                { link: "#logout", value: "Logout" },
+            ],
+            state: "Circle Menu",
         },
         {
             id: 2,
-            action: "Product",
+            action: { component: Plus, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } },
+            buttonProps: { 'aria-label': 'Menu', shape: 'square', size: 'medium', variant: 'outline' },
             items: [
-                { link: "#", value: "Apple" },
-                { link: "#", value: "Apple" },
+                { link: "#settings", value: "Settings" },
+                { link: "#logout", value: "Logout" },
             ],
+            state: "Square Menu",
         },
         {
             id: 3,
-            action: "Account",
+            action: { component: Avatar, props: { name: user.name, img: user.img, size: user.size } },
+            buttonProps: { 'aria-label': 'User menu', shape: 'circle', size: 'medium', variant: 'ghost' },
             items: [
-                { link: "#", value: "Apple" },
-                { link: "#", value: "Apple" },
+                { link: "#profile", value: "Profile", prefix: Plus },
+                { link: "#settings", value: "Settings", prefix: Settings },
+                { link: "#logout", value: "Logout", prefix: Logout },
             ],
+            state: "User Avatar Menu with Prefix",
         },
         {
             id: 4,
-            action: "...",
-            buttonProps: { 'aria-label': 'Menu', shape: 'square' as const, size: 'medium' as const, variant: 'outline' as const },
+            action: { component: Avatar, props: { name: user.name, img: user.img, size: user.size } },
+            buttonProps: { 'aria-label': 'User menu', shape: 'circle', size: 'medium', variant: 'ghost' },
             items: [
-                { link: "#", value: "Settings" },
-                { link: "#", value: "Logout" },
+                { link: "#profile", value: "Profile", suffix: Plus },
+                { link: "#settings", value: "Settings", suffix: Settings },
+                { link: "#logout", value: "Logout", suffix: Logout },
             ],
-        },
-        {
-            id: 5,
-            action: "...",
-            buttonProps: { 'aria-label': 'Menu', shape: 'circle' as const, size: 'medium' as const, variant: 'outline' as const },
-            items: [
-                { link: "#", value: "Settings" },
-                { link: "#", value: "Logout" },
-            ],
+            state: "User Avatar Menu with Suffix",
         },
     ];
 
-    // Количество колонок в сетке
     const cols = 3;
 </script>
 
@@ -60,26 +86,42 @@
         <p class="text-muted-foreground">A collection of menu dropdown components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
-                class={`p-4 flex items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
+                class={`px-4 py-12 flex items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Вывод компонента Select -->
+                <!-- Component -->
                 <div class="flex items-center justify-center w-full">
                     <Menu.Root>
-                        <Menu.Button {...card.buttonProps}>{card.action}</Menu.Button>
+                        <Menu.Button {...card.buttonProps}>
+                            {#if typeof card.action === "object" && card.action.component}
+                                <svelte:component this={card.action.component} {...card.action.props} />
+                            {:else if typeof card.action === "string"}
+                                {card.action}
+                            {/if}
+                        </Menu.Button>
+                        
+                        
                         <Menu.Content class="w-[200px]">
                             {#each card.items as item}
-                            <Menu.Link href={item.link}>{item.value}</Menu.Link>
+                                <Menu.Link 
+                                    href={item.link} 
+                                    prefix={item.prefix ? { component: item.prefix, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } } : undefined}
+                                    suffix={item.suffix ? { component: item.suffix, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } } : undefined}
+                                >
+                                    {item.value}
+                                </Menu.Link>
                             {/each}
                         </Menu.Content>
                     </Menu.Root>
                 </div>
+                <!-- State -->
+                <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
             </div>
         {/each}
     </div>
 </div>
+
