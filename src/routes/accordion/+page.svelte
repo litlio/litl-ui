@@ -6,6 +6,7 @@
             id: 1,
             value: "item-1",
             title: "Frequently Asked Questions",
+            state: "FAQs",
             items: [
                 { trigger: "What is Svelte?", content: "Svelte is a modern JavaScript framework for building user interfaces." },
                 { trigger: "Why use Svelte?", content: "Svelte offers faster, leaner, and simpler code for developing web applications." }
@@ -15,6 +16,7 @@
             id: 2,
             value: "item-2",
             title: "Advanced Topics",
+            state: "Advanced Topics",
             items: [
                 { trigger: "What is SvelteKit?", content: "SvelteKit is a framework for building applications with Svelte." },
                 { trigger: "How does hydration work?", content: "Hydration in Svelte restores the DOM interactivity after server-side rendering." }
@@ -34,7 +36,7 @@
     <div class={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${cols} gap-0`}>
         {#each cards as card, index}
             <div
-                class={`p-10 flex flex-col justify-start border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
+                class={`relative px-4 py-10 flex flex-col justify-start border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
@@ -47,7 +49,9 @@
                         </Accordion.Item>
                     {/each}
                 </Accordion.Root>
+                <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>
             </div>
         {/each}
     </div>
 </div>
+

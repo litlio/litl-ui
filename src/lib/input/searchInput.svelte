@@ -91,6 +91,7 @@
 	</button>
 {/snippet}
 
+<div class="flex flex-col items-center space-y-2">
 <div
 	class={`flex items-center ${sizeClass} transition-all ${borderClass} rounded-[6px]`}
 	style="width: 100%;"
@@ -102,5 +103,6 @@
 	</div>
 </div>
 {#if error}
-<p class="text-destructive dark:text-destructive text-xs mt-1">{error}</p>
+<p class="text-destructive dark:text-destructive text-sm">{error}</p>
 {/if}
+</div>

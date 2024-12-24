@@ -2,12 +2,12 @@
     import Checkbox from '$lib/checkbox/checkbox.svelte';
 
     let cards = [
-        { id: 1, value: "Default checkbox", state: "Default" },
+        { id: 1, value: "Accept terms and conditions", state: "Default" },
         { id: 2, value: "Option", checked: true, state: "Checked" },
         { id: 3, value: "Option", disabled: true, state: "Disabled" },
-        { id: 4, value: "Option", disabled: true, indeterminate: true, state: "Indeterminate" },
-        { id: 5, value: "Option", disabled: true, checked: true, state: "Checked & Disabled" },
-        { id: 6, value: "Option", indeterminate: true, state: "Indeterminate Active" },
+        { id: 4, value: "Option", disabled: true, checked: true, state: "Checked & Disabled" },
+        { id: 5, value: "Option", indeterminate: true, state: "Indeterminate Active" },
+        { id: 6, value: "Option", disabled: true, indeterminate: true, state: "Indeterminate disabled" },
     ];
 
     const cols = 3;

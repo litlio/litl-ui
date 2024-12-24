@@ -9,15 +9,18 @@
             id: 1,
             type: "success" as const,
             value: 100,
+            state: "Completed",
         },
         {
             id: 2,
             type: "dynamic" as const,
+            state: "Dynamic Progress",
         },
         {
             id: 3,
             type: "error" as const,
             value: 20,
+            state: "Error State",
         },
     ];
 
@@ -33,7 +36,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
-                class={`p-4 flex flex-col items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
+                class={`relative px-4 py-10 flex flex-col items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
@@ -69,7 +72,9 @@
                         </div>
                     </div>
                 {/if}
+                <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>
             </div>
         {/each}
     </div>
 </div>
+

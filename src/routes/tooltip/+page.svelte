@@ -1,104 +1,43 @@
 <script lang="ts">
-    import Tooltip from "$lib/tooltip/tooltip.svelte";
+    import Tooltip from "$lib/tooltip/index.js";
     import Button from "$lib/button/button.svelte";
-    import Badge from "$lib/badge/badge.svelte";
 
     let cards = [
         {
             id: 1,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "top" as const,
-                content: "Top",
-            },
+            delayDuration: 300,
+            position: "top" as const,
+            content: "I am top.",
             state: "Top Tooltip",
         },
         {
             id: 2,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "bottom" as const,
-                content: "Bottom",
-            },
+            delayDuration: 0,
+            position: "bottom" as const,
+            content: "I am bottom.",
             state: "Bottom Tooltip",
         },
         {
             id: 3,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "right" as const,
-                content: "Right",
-            },
-            state: "Right Tooltip",
-        },
-        {
-            id: 4,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "left" as const,
-                content: "Left",
-            },
+            delayDuration: 0,
+            position: "left" as const,
+            content: "I am left.",
             state: "Left Tooltip",
         },
         {
+            id: 4,
+            delayDuration: 0,
+            position: "right" as const,
+            content: "I am right.",
+            state: "Right Tooltip",
+        },
+        {
             id: 5,
-            tooltip: {
-                text: "The Evil Rabbit",
-                position: "top" as const,
-                type: "success" as const,
-                content: "Top",
-            },
-            state: "Success Tooltip",
-        },
-        {
-            id: 6,
-            tooltip: {
-                text: "The Evil Rabbit",
-                position: "bottom" as const,
-                type: "error" as const,
-                content: "Bottom",
-            },
-            state: "Error Tooltip",
-        },
-        {
-            id: 7,
-            tooltip: {
-                text: "The Evil Rabbit",
-                position: "right" as const,
-                type: "warning" as const,
-                content: "Right",
-            },
-            state: "Warning Tooltip",
-        },
-        {
-            id: 8,
-            tooltip: {
-                text: "The Evil Rabbit",
-                position: "left" as const,
-                type: "violet" as const,
-                content: "Left",
-            },
-            state: "Violet Tooltip",
-        },
-        {
-            id: 9,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "bottom" as const,
-                content: "<Button size='small'>Bottom</Button>",
-                isComponent: true,
-            },
-            state: "Button Tooltip",
-        },
-        {
-            id: 10,
-            tooltip: {
-                text: "The Evil Rabbit Jumped over the Fence",
-                position: "left" as const,
-                content: "<Badge size='sm'>LEFT</Badge>",
-                isComponent: true,
-            },
-            state: "Badge Tooltip",
+            delayDuration: 0,
+            position: "bottom" as const,
+            content: "I am arrow.",
+            showArrow: true,
+            state: "With arrow",
         },
     ];
 
@@ -119,21 +58,16 @@
                 ${index % cols !== 0 ? "border-l" : ""}`}
         >
             <div class="flex flex-col gap-4 mx-auto">
-                <Tooltip
-                    text={card.tooltip.text}
-                    position={card.tooltip.position}
-                    type={card.tooltip.type}
-                >
-                    {#if card.tooltip.isComponent}
-                        {#if card.tooltip.content === "<Button size='small'>Bottom</Button>"}
-                            <Button size="small">Bottom</Button>
-                        {:else if card.tooltip.content === "<Badge size='sm'>LEFT</Badge>"}
-                            <Badge size="sm">LEFT</Badge>
-                        {/if}
-                    {:else}
-                        <span class="dark:text-white">{card.tooltip.content}</span>
-                    {/if}
-                </Tooltip>
+                <Tooltip.Provider delayDuration={card.delayDuration}>
+                    <Tooltip.Root>
+                        <Tooltip.Trigger>
+                            <Button variant="outline" size="small">Hover me</Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content position={card.position} showArrow={card.showArrow}>
+                            {card.content}
+                        </Tooltip.Content>
+                    </Tooltip.Root>
+                </Tooltip.Provider>
             </div>
             <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
         </div>

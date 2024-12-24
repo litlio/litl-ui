@@ -1,31 +1,25 @@
 <script lang="ts">
-  import OtpInput from "$lib/input/otpInput.svelte";
+	import Tooltip from '$lib/tooltip/index.js';
+	import Button from '$lib/button/button.svelte';
 
-  let otpValue: string[] = [];
-  let otpError = '';
-
-  async function verifyOtp() {
-      const enteredOtp = otpValue.join('');
-      if (enteredOtp !== '123456') { // Пример проверки OTP
-          otpError = 'Invalid OTP. Please try again.';
-      } else {
-          otpError = '';
-          alert('OTP verified successfully!');
-      }
-  }
 </script>
 
-<div class="flex items-center justify-center min-h-screen">
-  <div class="flex flex-col items-center space-y-4">
-    <OtpInput length={6} bind:otp={otpValue} bind:error={otpError} />
-    <div class="w-48 text-center">
-      <button
-        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-        on:click={verifyOtp}
-        disabled={otpValue.join('').length < 6}
-      >
-        Verify OTP
-      </button>
-    </div>
-  </div>
+<div class="min-h-screen bg-gray-100 dark:bg-neutral-900 text-black dark:text-white flex items-center justify-center">
+	<div class="container max-w-md mx-auto px-4 py-16">
+		<h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Tooltip Demo</h1>
+
+		<div class="relative flex items-center justify-center w-full h-64 bg-neutral-200 dark:bg-neutral-800">
+			<Tooltip.Provider delayDuration={400}>
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<Button variant="outline" size="small">Hover me</Button>
+					</Tooltip.Trigger>
+					<Tooltip.Content position="top">
+            Привет, заебал.
+					</Tooltip.Content>
+				</Tooltip.Root>
+			</Tooltip.Provider>
+		</div>
+	</div>
 </div>
+

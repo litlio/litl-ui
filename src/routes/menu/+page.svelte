@@ -93,7 +93,6 @@
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
-                <!-- Component -->
                 <div class="flex items-center justify-center w-full">
                     <Menu.Root>
                         <Menu.Button {...card.buttonProps}>
@@ -103,8 +102,6 @@
                                 {card.action}
                             {/if}
                         </Menu.Button>
-                        
-                        
                         <Menu.Content class="w-[200px]">
                             {#each card.items as item}
                                 <Menu.Link 
@@ -118,7 +115,6 @@
                         </Menu.Content>
                     </Menu.Root>
                 </div>
-                <!-- State -->
                 <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-800">{card.state}</p>
             </div>
         {/each}

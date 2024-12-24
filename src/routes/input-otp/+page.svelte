@@ -4,19 +4,19 @@
     let cards = [
         {
             id: 1,
-            otpValue: [], // Пустой OTP для стандартного состояния
+            otpValue: [],
             error: '',
             state: 'Default',
         },
         {
             id: 2,
-            otpValue: ['1', '2', '3', '4', '5', '6'], // Предварительное значение OTP
+            otpValue: ['1', '2', '3', '4', '5', '6'],
             error: 'Invalid code entered',
             state: 'Error Active',
         },
     ];
 
-    const cols = 2; // Количество колонок
+    const cols = 2;
 </script>
 
 <div class="container mx-auto p-4">
@@ -33,14 +33,12 @@
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
                 <div class="flex flex-col items-center space-y-4">
-                    <!-- Инпут OTP -->
                     <OtpInput
                         length={6}
                         bind:otp={card.otpValue}
                         error={card.error}
                     />
                 </div>
-                <!-- Отображение состояния -->
                 <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>
             </div>
         {/each}

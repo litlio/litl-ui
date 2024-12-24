@@ -2,6 +2,7 @@
     import type { Component } from 'svelte';
     import { randomString } from '../utils/random.js';
     import type { FullAutoFill } from 'svelte/elements';
+    
 
     type propsT = {
         type?: 'text' | 'number' | 'email' | 'password';
@@ -82,7 +83,7 @@
 
     let inputClass = $derived.by(() => {
         if (disabled) {
-            return `cursor-not-allowed text-neutral-200 dark:text-neutral-600 placeholder-neutral-200 dark:placeholder-neutral-400`;
+            return `bg-neutral-100 dark:bg-neutral-900 cursor-not-allowed text-neutral-200 dark:text-neutral-600 placeholder-neutral-200 dark:placeholder-neutral-400`;
         }
         if (error) {
             return `text-destructive dark:text-red-700 placeholder-neutral-400 dark:placeholder-neutral-400`;
@@ -164,44 +165,48 @@
 {/snippet}
 
 {#snippet inputSnip()}
-    <div>
-        <div
-            class="flex items-center {sizeClass} overflow-hidden transition-all border {ringClass} rounded-[6px] bg-transparent"
-        >
-            {@render prefixSnip()}
-            <div class="w-full h-full {inputContClass}">
-                <input
-                    {type}
-                    bind:value
-                    id={inputID}
-                    {name}
-                    aria-labelledby={ariaLabelledBy}
-                    aria-describedby={ariaDescribedBy}
-                    {spellcheck}
-                    {placeholder}
-                    {disabled}
-                    autocomplete={autocomplete}
-                    onfocus={() => {
-                        hasRing = true;
-                    }}
-                    onblur={() => {
-                        hasRing = false;
-                    }}
-                    class="{inputClass} w-full h-full outline-none bg-transparent"
-                />
-            </div>
-            {@render suffixSnip()}
+<div>
+    <div
+        class="flex items-center {sizeClass} overflow-hidden transition-all border {ringClass} rounded-[6px] bg-transparent"
+    >
+        {@render prefixSnip()}
+        <div class="w-full h-full relative">
+            <input
+                {type}
+                bind:value
+                id={inputID}
+                {name}
+                aria-labelledby={ariaLabelledBy}
+                aria-describedby={ariaDescribedBy}
+                {spellcheck}
+                {placeholder}
+                {disabled}
+                autocomplete={autocomplete}
+                onfocus={() => {
+                    hasRing = true;
+                }}
+                onblur={() => {
+                    hasRing = false;
+                }}
+                class="{inputClass} w-full h-full outline-none bg-transparent pl-3 pr-3"
+                style="padding-left: {prefix ? 'calc(1rem + 16px)' : '1rem'}; 
+                       padding-right: {suffix ? 'calc(1rem + 16px)' : '1rem'};"
+            />
         </div>
-        {#if error}
-            <div class="mt-[8px]">
-                <div class="flex items-center">
-                    <div class="{errorText} text-destructive dark:text-destructive">
-                        {error}
-                    </div>
+        {@render suffixSnip()}
+    </div>
+    {#if error}
+        <div class="mt-[8px]">
+            <div class="flex items-center">
+                <div class="{errorText} text-destructive dark:text-destructive">
+                    {error}
                 </div>
             </div>
-        {/if}
-    </div>
+        </div>
+    {/if}
+</div>
+
+
 {/snippet}
 
 <div>

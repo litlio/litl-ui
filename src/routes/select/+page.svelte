@@ -12,6 +12,7 @@
                 { value: "orange", label: "Orange" },
                 { value: "pineapple", label: "Pineapple" },
             ],
+            state: "Small Select",
         },
         {
             id: 2,
@@ -23,6 +24,7 @@
                 { value: "train", label: "Train" },
                 { value: "plane", label: "Plane" },
             ],
+            state: "Medium Select",
         },
         {
             id: 3,
@@ -34,6 +36,7 @@
                 { value: "green", label: "Green" },
                 { value: "yellow", label: "Yellow" },
             ],
+            state: "Large Select",
         },
     ];
 
@@ -43,14 +46,13 @@
 <div class="container mx-auto p-4">
     <div class="my-16 text-center" id="title">
         <h1 class="mb-3 text-3xl font-extrabold text-foreground md:text-4xl">Select</h1>
-        <p class="text-muted-foreground">A collection of select dropdown components built with Svelte and TailwindCSS.</p>
+        <p class="text-foreground">A collection of select dropdown components built with Svelte and TailwindCSS.</p>
     </div>
 
-    <!-- Сетка карточек -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">
         {#each cards as card, index}
             <div
-                class={`p-4 flex items-center justify-center border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950
+                class={`relative px-4 py-10 flex flex-col bg-white dark:bg-neutral-950 justify-start items-start border-neutral-300 dark:border-neutral-800
                     ${Math.ceil((index + 1) / cols) !== Math.ceil(cards.length / cols) ? "border-b" : ""} 
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
@@ -66,6 +68,7 @@
                         </Select.Content>
                     </Select.Root>
                 </div>
+                <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>
             </div>
         {/each}
     </div>

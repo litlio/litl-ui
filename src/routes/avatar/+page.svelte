@@ -22,7 +22,7 @@
 <div class="container mx-auto p-4">
     <div class="my-16 text-center" id="title">
         <h1 class="mb-3 text-3xl font-extrabold text-foreground md:text-4xl">Avatar</h1>
-        <p class="text-foreground dark:text-foreground">A growing collection of over 51 avatar components built with Svelte and TailwindCSS.</p>
+        <p class="text-foreground dark:text-foreground">A showcase of avatar components built with Svelte and TailwindCSS.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">

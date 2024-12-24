@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Tooltip from '../tooltip/tooltip.svelte';
+	import Tooltip from '$lib/tooltip/index.js';
 	import type { Component } from 'svelte';
 
 	type propsT = {
@@ -114,15 +114,22 @@
 	<div class="inline-flex items-center {contClass}">
 		{#if tabs}
 			{#each tabs as tab}
-				<div class="mb-[-1px]">
-					{#if tab.disabled}
-						<Tooltip text={tab.tooltip}>
-							{@render tabButton(isSelected(tab.value), tab)}
-						</Tooltip>
-					{:else}
+			<div class="mb-[-1px]">
+				{#if tab.disabled}
+				  <Tooltip.Provider delayDuration={400}>
+					<Tooltip.Root>
+					  <Tooltip.Trigger>
 						{@render tabButton(isSelected(tab.value), tab)}
-					{/if}
-				</div>
+					  </Tooltip.Trigger>
+					  <Tooltip.Content position="top">
+						{tab.tooltip}
+					  </Tooltip.Content>
+					</Tooltip.Root>
+				  </Tooltip.Provider>
+				{:else}
+				  {@render tabButton(isSelected(tab.value), tab)}
+				{/if}
+			  </div>			  
 			{/each}
 		{/if}
 	</div>

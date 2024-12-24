@@ -50,7 +50,7 @@
         },
     ];
 
-    const cols = 2; // Количество колонок
+    const cols = 2;
 </script>
 
 <div class="container mx-auto p-4">
@@ -67,7 +67,6 @@
                     ${index % cols !== 0 ? "border-l" : ""}`}
             >
                 <div class="flex flex-col items-center space-y-4">
-                    <!-- Инпут Search -->
                     <SearchInput
                         bind:value={card.value}
                         placeholder={card.placeholder}
@@ -77,7 +76,6 @@
                         disabled={card.disabled}
                     />
                 </div>
-                <!-- Отображение состояния -->
                 <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>
             </div>
         {/each}

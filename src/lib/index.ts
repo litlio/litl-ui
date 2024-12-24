@@ -37,7 +37,7 @@ export { default as TextArea} from './textarea/textarea.svelte';
 // Toggle
 export { default as Toggle} from './toggle/toggle.svelte';
 // Tooltip
-export { default as Tooltip} from './tooltip/tooltip.svelte';
+export { default as Tooltip} from './tooltip/index.js';
 // Icons
 export { default as Check } from './icons/Check.svelte';
 export { default as ChevronDown } from './icons/ChevronDown.svelte';

@@ -3,7 +3,6 @@
 /* Настраиваем dark как селектор */
 @variant dark (&:where(.dark, .dark *));
 
-/* Поддержка системной темы */
 html {
   color-scheme: light dark;
 }
@@ -42,13 +41,6 @@ body {
 
 
 @layer utilities {
-  .bg-destructive {
-    background-color: var(--color-destructive);
-  }
-
-  .dark .dark\:bg-destructive {
-    background-color: var(--color-destructive);
-  }
 
   .bg-secondary {
     background-color: var(--color-secondary);
@@ -56,6 +48,16 @@ body {
 
   .dark .dark\:bg-secondary {
     background-color: var(--color-secondary);
+  }
+
+  /* Destructive */
+
+  .bg-destructive {
+    background-color: var(--color-destructive);
+  }
+
+  .dark .dark\:bg-destructive {
+    background-color: var(--color-destructive);
   }
 
   .text-destructive {
@@ -74,7 +76,7 @@ body {
     color: var(--color-destructive-foreground);
   }
 
-  /* Цвет рамки */
+  /* Border  */
   .border-destructive {
     border-color: var(--color-destructive);
   }
@@ -90,12 +92,12 @@ body {
     color: var(--color-foreground);
   }
 
-  /* Кольца */
+  /* Ring */
   .ring-destructive {
     box-shadow: 0 0 0 4px var(--color-destructive);
   }
 
   .ring-destructive\/40 {
-    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4); /* Пример полупрозрачного кольца */
+    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
   }
 }
