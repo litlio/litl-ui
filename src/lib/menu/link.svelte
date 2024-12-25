@@ -31,7 +31,7 @@
 {#snippet prefixSnip()}
     {#if typeof prefix === 'object' && prefix?.component}
         {@const IconComponent = prefix.component}
-        <div class="w-[16px] h-[16px] flex items-center justify-center mr-2">
+        <div class="w-[16px] h-[16px] flex items-center justify-center mr-2 text-black dark:text-white">
             <IconComponent {...prefix.props} />
         </div>
     {/if}
@@ -40,7 +40,7 @@
 {#snippet suffixSnip()}
     {#if typeof suffix === 'object' && suffix?.component}
         {@const IconComponent = suffix.component}
-        <div class="w-[16px] h-[16px] flex items-center justify-center ml-auto">
+        <div class="w-[16px] h-[16px] flex items-center justify-center ml-auto text-black dark:text-white">
             <IconComponent {...suffix.props} />
         </div>
     {/if}

@@ -104,7 +104,7 @@
             px-2 py-1 disabled:dark:border-neutral-700 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-700
             disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-50 disabled:text-neutral-400
             disabled:placeholder:text-neutral-400 dark:placeholder:text-neutral-600
-            dark:text-white dark:border-neutral-700 outline-none focus:border-neutral-200
+            text-black dark:text-white dark:border-neutral-700 outline-none focus:border-neutral-200
             dark:focus:border-neutral-500 transition-all rounded-md
             ${resize ? '' : 'resize-none'} ${className} min-h-[64px}`}
     ></textarea>

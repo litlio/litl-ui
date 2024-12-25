@@ -49,12 +49,12 @@
 {#snippet prefixSnip()}
 	{#if typeof prefix === 'object' && prefix?.component}
 		{@const IconComponent = prefix.component}
-		<div class="w-[16px] h-[16px] flex items-center justify-center">
+		<div class="w-[16px] h-[16px] flex items-center justify-center text-black dark:text-white">
 			<IconComponent {...prefix.props} />
 		</div>
 	{:else if typeof prefix === 'function'}
 		{@const Prefix = prefix}
-		<div class="w-[16px] h-[16px] flex items-center justify-center">
+		<div class="w-[16px] h-[16px] flex items-center justify-center text-black dark:text-white">
 			<Prefix />
 		</div>
 	{/if}
@@ -63,12 +63,12 @@
 {#snippet suffixSnip()}
 	{#if typeof suffix === 'object' && suffix?.component}
 		{@const IconComponent = suffix.component}
-		<div class="w-[16px] h-[16px] flex items-center justify-center">
+		<div class="w-[16px] h-[16px] flex items-center justify-center text-black dark:text-white">
 			<IconComponent {...suffix.props} />
 		</div>
 	{:else if typeof suffix === 'function'}
 		{@const Suffix = suffix}
-		<div class="w-[16px] h-[16px] flex items-center justify-center">
+		<div class="w-[16px] h-[16px] flex items-center justify-center text-black dark:text-white">
 			<Suffix />
 		</div>
 	{/if}

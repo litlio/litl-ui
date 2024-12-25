@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 
-/* Настраиваем dark как селектор */
 @variant dark (&:where(.dark, .dark *));
 
 html {

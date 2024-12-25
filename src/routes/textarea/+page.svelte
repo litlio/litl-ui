@@ -17,6 +17,7 @@
             id: 1,
             placeholder: "Placeholder",
             disabled: true,
+            resize: false,
             state: "Disabled"
         },
         {
