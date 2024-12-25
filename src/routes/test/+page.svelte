@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Tooltip from '$lib/tooltip/index.js';
 	import Button from '$lib/button/button.svelte';
-
 </script>
 
 <div class="min-h-screen bg-gray-100 dark:bg-neutral-900 text-black dark:text-white flex items-center justify-center">
@@ -12,14 +11,13 @@
 			<Tooltip.Provider delayDuration={400}>
 				<Tooltip.Root>
 					<Tooltip.Trigger>
-						<Button variant="outline" size="small">Hover me</Button>
+						<Button variant="outline" size="medium" full={true}>Hover me</Button>
 					</Tooltip.Trigger>
 					<Tooltip.Content position="top">
-            Привет, заебал.
+						Привет, заебал.
 					</Tooltip.Content>
 				</Tooltip.Root>
 			</Tooltip.Provider>
 		</div>
 	</div>
 </div>
-

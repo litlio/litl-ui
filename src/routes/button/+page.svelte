@@ -17,7 +17,8 @@
         { id: 11, disabled: true, content: "Button", state: "Disabled Button" },
         { id: 12, loading: true, content: "Button", state: "Loading Button" },
         { id: 13, variant: "error" as const, prefix: { component: Bookmark, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } }, content: "Button", state: "Error with Prefix" },
-        { id: 14, variant: "outline" as const, suffix: { component: Plus, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } }, content: "Button", state: "Outline with Suffix" }
+        { id: 14, variant: "outline" as const, suffix: { component: Plus, props: { size: 16, strokeWidth: 1.5, ariaHidden: true } }, content: "Button", state: "Outline with Suffix" },
+        { id: 15, size: "medium" as const, full: true, content: "Button", state: "Full wide" },
     ];
 
     const cols = 3;
@@ -43,6 +44,7 @@
                         shape={card.shape} 
                         aria-label={card.ariaLabel}
                         rounded={card.rounded}
+                        full={card.full}
                         disabled={card.disabled}
                         loading={card.loading}
                         prefix={card.prefix}

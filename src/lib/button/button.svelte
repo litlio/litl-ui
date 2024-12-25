@@ -14,6 +14,7 @@
 		prefix?: Component | IconProps;
 		suffix?: Component | IconProps;
 		rounded?: boolean;
+		full?: boolean;
 		loading?: boolean;
 		disabled?: boolean;
 		type?: 'button' | 'submit' | 'reset';
@@ -30,6 +31,7 @@
 		prefix = undefined,
 		suffix = undefined,
 		rounded = false,
+		full = false,
 		loading = false,
 		disabled = false,
 		type = 'button',
@@ -55,6 +57,10 @@
 			return sizeObj[size];
 		}
 	});
+
+	let fullWidthClass = $derived.by(() => {
+        return full ? 'w-full' : '';
+    });
 
 	const prefixSuffixSpinnerObj = {
 		tiny: 'w-[14px] h-[14px]',
@@ -130,9 +136,9 @@
 	// The final styles for the button
 	let buttonClass = $derived.by(() => {
 		if (disabled || loading) {
-			return `${sizeClass} ${radiusStyle} ${loadingDisabledClass} ${klass}`;
+			return `${sizeClass} ${radiusStyle} ${loadingDisabledClass} ${fullWidthClass} ${klass}`;
 		}
-		return `${sizeClass} ${typeClass} ${radiusStyle} ${klass}`;
+		return `${sizeClass} ${typeClass} ${radiusStyle} ${fullWidthClass} ${klass}`;
 	});
 </script>
 
