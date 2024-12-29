@@ -34,8 +34,12 @@ export { default as Separator} from './separator/separator.svelte';
 export { default as Tabs} from './tabs/tabs.svelte';
 // TextArea
 export { default as TextArea} from './textarea/textarea.svelte';
+// Switch
+export { default as Switch} from './switch/switch.svelte';
 // Toggle
 export { default as Toggle} from './toggle/toggle.svelte';
+// Toggle Group
+export { default as ToggleGroup} from './toggle-group/index.js';
 // Tooltip
 export { default as Tooltip} from './tooltip/index.js';
 // Icons

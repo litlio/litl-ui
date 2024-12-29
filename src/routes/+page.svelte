@@ -16,12 +16,14 @@
         { name: 'Modal', href: '/modal' },
         { name: 'Progress', href: '/progress' },
         { name: 'Tabs', href: '/tabs' },
-        { name: 'Toggle', href: '/toggle' },
+        { name: 'Switch', href: '/switch' },
         { name: 'TextArea', href: '/textarea' },
         { name: 'Context Menu', href: '/context-menu' },
         { name: 'Scroll Area', href: '/scroll-area' },
         { name: 'Separator', href: '/separator' },
         { name: 'Tooltip', href: '/tooltip' },
+        { name: 'Toggle', href: '/toggle' },
+        { name: 'Toggle Group', href: '/toggle-group' },
         { name: 'Test', href: '/test' },
     ];
 </script>

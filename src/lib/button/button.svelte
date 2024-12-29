@@ -73,27 +73,27 @@
 	});
 
 	const typeObj = {
-    primary: `text-white dark:text-neutral-950 bg-neutral-800 dark:bg-neutral-100 
-    hover:brightness-140 dark:hover:brightness-85`,
+		primary: `text-white dark:text-neutral-950 bg-neutral-800 dark:bg-neutral-100 
+		hover:brightness-140 dark:hover:brightness-85`,
 
-    secondary: `text-neutral-950 dark:text-white bg-neutral-200 dark:bg-neutral-800 border 
-    border-neutral-200 dark:border-neutral-800 hover:brightness-103 hover:dark:bg-neutral-700`,
+		secondary: `text-neutral-950 dark:text-white bg-neutral-200 dark:bg-neutral-800 border 
+		border-neutral-200 dark:border-neutral-800 hover:brightness-103 hover:dark:bg-neutral-700`,
 
-	outline: `text-neutral-950 dark:text-white bg-transparent dark:bg-transparent border 
-    border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 hover:dark:bg-neutral-700`,
+		outline: `text-neutral-950 dark:text-white bg-transparent dark:bg-transparent border 
+		border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 hover:dark:bg-neutral-700`,
 
-    ghost: `text-neutral-950 dark:text-white hover:bg-neutral-100 
-    hover:dark:bg-neutral-700`,
+		ghost: `text-neutral-950 dark:text-white hover:bg-neutral-100 
+		hover:dark:bg-neutral-700`,
 
-	link: `text-neutral-950 dark:text-white hover:underline 
-    hover:underline`,
+		link: `text-neutral-950 dark:text-white hover:underline 
+		hover:underline`,
 
-    error: `text-destructive-foreground bg-destructive dark:bg-destructive
-    hover:brightness-120`,
+		error: `text-destructive-foreground bg-destructive dark:bg-destructive
+		hover:brightness-120`,
 
-    warning: `text-neutral-950 bg-amber-500 dark:bg-amber-600 
-    hover:brightness-120`
-};
+		warning: `text-neutral-950 bg-amber-500 dark:bg-amber-600 
+		hover:brightness-120`
+	};
 
 	let typeClass = $derived.by(() => {
 		return typeObj[variant];
