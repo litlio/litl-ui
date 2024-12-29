@@ -7,6 +7,7 @@
 		onChange?: (value: string | string[]) => void;
 		disabled?: boolean;
 		variant?: "ghost" | "outline";
+		size?: "tiny" | "small" | "medium" | "large"; // Новый пропс
 		children: Snippet | undefined;
 	};
 
@@ -16,6 +17,7 @@
 		onChange = () => {},
 		disabled = false,
 		variant = "ghost",
+		size = "medium",
 		children,
 	}: propsT = $props();
 
@@ -47,6 +49,7 @@
 		toggleValue: updateValue,
 		disabled,
 		variant,
+		size,
 	});
 </script>
 
@@ -55,4 +58,3 @@
 		{@render children()}
 	{/if}
 </div>
-

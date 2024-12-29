@@ -30,10 +30,10 @@
 
     // Размеры
     const sizeClasses = {
-        tiny: 'h-[28px] px-[6px] text-xs leading-3',
-        small: 'h-[32px] px-[8px] text-sm leading-4',
-        medium: 'h-[36px] px-[10px] text-sm leading-[20px]',
-        large: 'h-[40px] px-[12px] text-base leading-[24px]',
+        tiny: 'h-[28px] px-[6px] text-xs leading-3 min-w-[28px]',
+        small: 'h-[32px] px-[8px] text-sm leading-4 min-w-[32px]',
+        medium: 'h-[36px] px-[10px] text-sm leading-[20px] min-w-[36px]',
+        large: 'h-[40px] px-[12px] text-base leading-[24px] min-w-[40px]',
     };
 
     // Варианты стилей

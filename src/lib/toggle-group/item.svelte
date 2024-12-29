@@ -20,6 +20,7 @@
 		toggleValue: (value: string) => void;
 		disabled?: boolean;
 		variant: "ghost" | "outline";
+		size: "tiny" | "small" | "medium" | "large";
 	};
 
 	const toggleGroup = getContext<ToggleGroupContext>("toggle-group");
@@ -41,21 +42,23 @@
 </script>
 
 <Toggle
-    isSelected={isSelected()}
-    ariaLabel={ariaLabel}
-    onClick={handleClick}
-    disabled={isDisabled()}
-    variant={toggleGroup.variant}
+	isSelected={isSelected()}
+	ariaLabel={ariaLabel}
+	onClick={handleClick}
+	disabled={isDisabled()}
+	variant={toggleGroup.variant}
+	size={toggleGroup.size}
 >
-    {#if icon?.component}
-        {@const IconComponent = icon.component}
-        <IconComponent {...icon.props} />
-    {/if}
-    {#if typeof children === "function"}
-        <span>{@render children()}</span>
-    {:else if children}
-        <span>{children}</span>
-    {/if}
+	{#if icon?.component}
+		{@const IconComponent = icon.component}
+		<IconComponent {...icon.props} />
+	{/if}
+	{#if typeof children === "function"}
+		<span>{@render children()}</span>
+	{:else if children}
+		<span>{children}</span>
+	{/if}
 </Toggle>
+
 
 
