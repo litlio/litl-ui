@@ -2,15 +2,17 @@
 	import { getContext } from "svelte";
 	import Toggle from "$lib/toggle/toggle.svelte";
 	import type { IconProps } from "$lib/types/ui.js";
+	import { type Snippet } from "svelte";
 
 	type propsT = {
 		value: string;
 		ariaLabel: string;
 		disabled?: boolean;
-		content?: IconProps;
+		icon?: IconProps;
+		children?: Snippet;
 	};
 
-	let { value, ariaLabel, disabled, content }: propsT = $props();
+	let { value, ariaLabel, disabled, icon, children }: propsT = $props();
 
 	type ToggleGroupContext = {
 		type: "single" | "multiple";
@@ -39,15 +41,21 @@
 </script>
 
 <Toggle
-	isSelected={isSelected()}
-	ariaLabel={ariaLabel}
-	onClick={handleClick}
-	disabled={isDisabled()}
-	variant={toggleGroup.variant}
+    isSelected={isSelected()}
+    ariaLabel={ariaLabel}
+    onClick={handleClick}
+    disabled={isDisabled()}
+    variant={toggleGroup.variant}
 >
-	{#if content?.component}
-		{@const IconComponent = content.component}
-		<IconComponent {...content.props} />
-	{/if}
+    {#if icon?.component}
+        {@const IconComponent = icon.component}
+        <IconComponent {...icon.props} />
+    {/if}
+    {#if typeof children === "function"}
+        <span>{@render children()}</span>
+    {:else if children}
+        <span>{children}</span>
+    {/if}
 </Toggle>
+
 

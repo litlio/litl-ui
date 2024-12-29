@@ -12,9 +12,9 @@
         disabled: false,
         value: [],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
         ]
     },
     {
@@ -24,9 +24,9 @@
         disabled: true,
         value: ["bold", "italic", "underline"],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: true },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: true },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: true }
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: true },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: true },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: true }
         ]
     },
     {
@@ -36,9 +36,9 @@
         disabled: false,
         value: ["italic"],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: true },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: true },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
         ]
     },
     {
@@ -48,9 +48,9 @@
         disabled: false,
         value: ["bold", "italic", "underline"],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
         ]
     },
     {
@@ -60,9 +60,9 @@
         disabled: false,
         value: ["italic"],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false }
         ]
     },
     {
@@ -73,9 +73,9 @@
         variant: "outline" as const,
         value: [],
         items: [
-            { value: "bold", content: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
-            { value: "italic", content: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
-            { value: "underline", content: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false },
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false },
         ],
     },
 ];
@@ -109,7 +109,7 @@
                                 value={item.value} 
                                 ariaLabel={item.ariaLabel} 
                                 disabled={item.disabled} 
-                                content={item.content} 
+                                icon={item.icon} 
                             />
                         {/each}
                     </ToggleGroup.Root>
