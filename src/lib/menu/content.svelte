@@ -45,19 +45,20 @@
 {/snippet}
 
 {#snippet desktopSnip()}
-	{#if rootState.getIsActive()}
-		<div
-			in:fly={{ y: rootState.getTransY() }}
-			out:fly={{ y: rootState.getTransY() }}
-			class="absolute {rootState.getContentPosition()} {alightmentClass} z-[1000] {klass}"
-		>
-			<div
-				class="hide-scrollbar bg-white dark:bg-neutral-950 p-2 rounded-[12px] border border-neutral-200 dark:border-neutral-800 shadow-sm scroll-smooth overflow-y-auto {klass}"
-			>
-				{@render children()}
-			</div>
-		</div>
-	{/if}
+{#if rootState.getIsActive()}
+<div
+	in:fly={{ y: rootState.getTransY() }}
+	out:fly={{ y: rootState.getTransY() }}
+	class="absolute {rootState.getContentPosition()} {alightmentClass} z-[1000] {klass}"
+>
+	<div
+		class="hide-scrollbar bg-white dark:bg-neutral-950 p-2 rounded-[12px] border border-neutral-200 dark:border-neutral-800 shadow-sm scroll-smooth overflow-y-auto {klass}"
+	>
+		{@render children()}
+	</div>
+</div>
+{/if}
+
 {/snippet}
 
 {#if rootState.getIsMobile()}

@@ -7,7 +7,7 @@
 	};
 
 	type propsT = {
-		onClick?: () => void | undefined;
+		onClick?: () => void | Promise<void> | undefined;
 		prefix?: Component | IconProps | undefined;
 		suffix?: Component | IconProps | undefined;
 		type?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'error' | 'warning';

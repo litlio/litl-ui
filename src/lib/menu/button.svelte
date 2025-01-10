@@ -29,12 +29,13 @@
 		setTransY: (value: number) => void;
 	}>('menu');
 
-	const toogle = (evt: Event) => {
-		const target = evt.currentTarget as HTMLInputElement;
+	const toggle = (evt: Event) => {
+		const target = evt.currentTarget as HTMLElement;
 		const position = target.getBoundingClientRect();
-
+		const viewportWidth = window.innerWidth;
 		const viewportHeight = window.innerHeight;
 
+		// Определяем вертикальное позиционирование
 		const positionFromTop = position.top;
 		const positionFromBottom = viewportHeight - position.bottom;
 
@@ -45,12 +46,26 @@
 			rootState.setContentPosition(`top-[112%]`);
 			rootState.setTransY(-10);
 		}
+
+		// Определяем горизонтальное позиционирование
+		const menuWidth = 200; // Ширина меню (задаётся в Tailwind)
+		if (position.left + menuWidth > viewportWidth) {
+			// Меню выходит за правый край
+			rootState.setContentPosition(`top-[112%] right-0`);
+		} else if (position.right - menuWidth < 0) {
+			// Меню выходит за левый край
+			rootState.setContentPosition(`top-[112%] left-0`);
+		} else {
+			// Оставляем меню выровненным относительно триггера
+			rootState.setContentPosition(`top-[112%]`);
+		}
+
 		rootState.setIsActive(!rootState.getIsActive());
 	};
 </script>
 
 {#if children}
-	<Button {...attributes} class={klass} variant={variant} onclick={toogle}>
+	<Button {...attributes} class={klass} variant={variant} onclick={toggle}>
 		{@render children()}
 	</Button>
 {/if}
