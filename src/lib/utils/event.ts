@@ -1,18 +1,28 @@
 /**
- * Attaches a click event listener to the document body that triggers the provided function
- * when a click event occurs outside of the specified node.
+ * Attaches a click event listener to detect clicks outside a specific element.
  *
- * @param {HTMLElement} node - The element to check for outside clicks.
- * @param {F} fn - The function to be triggered when a click occurs outside of the node.
- * @return {Object} An object with a `destroy` method to remove the event listener.
+ * @param {HTMLElement} node - The element to detect outside clicks for.
+ * @param {Function} fn - Callback function triggered when a click occurs outside the node.
+ * @returns {Object} - An object with a `destroy` method to remove the listener.
  */
-export const clickOutside = (node: HTMLElement, fn: (event: Event) => void): { destroy(): void } => {
+export const clickOutside = (
+    node: HTMLElement,
+    fn: (event: Event) => void
+): { destroy(): void } => {
+    if (typeof document === 'undefined') {
+        return {
+            destroy: () => {}
+        };
+    }
+
     const handleClick = (event: Event) => {
         if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
             fn(event);
         }
     };
+
     document.body.addEventListener('click', handleClick, true);
+
     return {
         destroy() {
             document.body.removeEventListener('click', handleClick, true);
@@ -20,22 +30,40 @@ export const clickOutside = (node: HTMLElement, fn: (event: Event) => void): { d
     };
 };
 
-export const clickAnywhere = (fn: (event: Event) => void): { destroy(): void } => {
+/**
+ * Attaches a click event listener to detect any clicks anywhere in the document.
+ *
+ * @param {Function} fn - Callback function triggered on any click.
+ * @returns {Object} - An object with a `destroy` method to remove the listener.
+ */
+/**
+ * Adds a global click listener and triggers the callback when clicking anywhere in the document.
+ *
+ * @param {HTMLElement} node - The DOM element where the directive is applied.
+ * @param {(event: Event) => void} callback - The callback function to execute on a click.
+ * @returns {{ destroy(): void }} - An object with a `destroy` method to remove the event listener.
+ */
+export const clickAnywhere = (
+    node: HTMLElement,
+    callback: (event: Event) => void
+): { destroy(): void } => {
     if (typeof document === 'undefined') {
-        return {
-            destroy: () => {
-            }
-        };
+        return { destroy: () => {} };
     }
 
     const handleClick = (event: Event) => {
-        fn(event);
+        if (!node.contains(event.target as Node) && !event.defaultPrevented) {
+            callback(event);
+        }
     };
-    document.body.addEventListener('click', handleClick, true);
+
+    document.addEventListener('click', handleClick, true);
 
     return {
         destroy() {
-            document.body.removeEventListener('click', handleClick, true);
+            document.removeEventListener('click', handleClick, true);
         }
     };
 };
+
+

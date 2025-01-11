@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickOutside } from '../utils/event.js';
+	import { clickAnywhere } from '../utils/event.js';
 	import { fade } from 'svelte/transition';
 	import { createRootState } from './root.svelte.js';
 	import { setContext, type Snippet } from 'svelte';
@@ -45,7 +45,7 @@
 	></div>
 {/if}
 
-<div use:clickOutside={() => rootState.setIsActive(false)} class="relative inline-block {klass}">
+<div use:clickAnywhere={() => rootState.setIsActive(false)} class="relative inline-block {klass}">
 	{#if children}
 		{@render children()}
 	{/if}

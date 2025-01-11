@@ -6,6 +6,7 @@
         { name: 'Badge', href: '/badge' },
         { name: 'Button', href: '/button' },
         { name: 'Checkbox', href: '/checkbox' },
+        { name: 'Choicebox', href: '/choicebox' },
         { name: 'Input', href: '/input' },
         { name: 'Input Search', href: '/input-search' },
         { name: 'Input Otp', href: '/input-otp' },

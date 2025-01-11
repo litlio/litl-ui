@@ -10,6 +10,8 @@ export { default as Button } from './button/button.svelte';
 export { default as Card} from './card/index.js';
 // CheckBox
 export { default as CheckBox } from './checkbox/checkbox.svelte';
+// ChoiseBox
+export { default as ChoiceBox } from './choicebox/index.js';
 // ContextMenu
 export { default as ContextMenu } from './context-menu/index.js';
 // Input
@@ -42,12 +44,3 @@ export { default as Toggle} from './toggle/toggle.svelte';
 export { default as ToggleGroup} from './toggle-group/index.js';
 // Tooltip
 export { default as Tooltip} from './tooltip/index.js';
-// Icons
-export { default as Check } from './icons/Check.svelte';
-export { default as ChevronDown } from './icons/ChevronDown.svelte';
-export { default as ChevronRight } from './icons/ChevronRight.svelte';
-export { default as ElipsisHorisontal } from './icons/ElipsisHorisontal.svelte';
-export { default as Error } from './icons/Error.svelte';
-export { default as LoaderCircle } from './icons/LoaderCircle.svelte';
-export { default as Minus } from './icons/Minus.svelte';
-export { default as Search } from './icons/Search.svelte';
