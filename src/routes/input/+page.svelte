@@ -13,8 +13,8 @@
 <div class="container mx-auto p-4">
 
     <div class="my-16 text-center" id="title">
-        <h1 class="mb-3 text-3xl font-extrabold text-foreground dark:text-foreground  md:text-4xl">Input</h1>
-        <p class="text-foreground">A showcase of input components built with Svelte and TailwindCSS.</p>
+        <h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white  md:text-4xl">Input</h1>
+        <p class="text-neutral-950 dark:text-white">A showcase of input components built with Svelte and TailwindCSS.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0">

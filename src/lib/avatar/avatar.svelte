@@ -11,7 +11,7 @@
 
   let avatarClasses = $derived.by(() => `
       inline-flex place-items-center gap-2 rounded-full overflow-hidden
-      ${img ? '' : 'bg-secondary dark:bg-secondary'}
+      ${img ? '' : 'bg-neutral-100 dark:bg-neutral-800'}
   `);
 </script>
 
@@ -49,7 +49,7 @@
 {#snippet avatarDetails()}
   {#if detail}
       <div class="flex flex-col">
-          <span class="text-foreground dark:text-foreground text-sm font-medium">{name}</span>
+          <span class="text-neutral-950 dark:text-neutral-50 text-sm font-medium">{name}</span>
           {#if details}
               <small class="text-xs text-neutral-600 dark:text-neutral-500">{details}</small>
           {/if}

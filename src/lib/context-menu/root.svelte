@@ -17,14 +17,14 @@
         isActive: false,
         alignment: alignment,
         x: 0,
-        y: 0
+        y: 0,
     });
 
     setContext('contextMenu', rootState);
 
     // Эффект для обработки изменения ширины окна
     $effect(() => {
-        if (typeof window === 'undefined') return; // Проверяем, что это клиент
+        if (typeof window === 'undefined') return;
         rootState.setIsMobile(window.innerWidth < 767);
 
         const resizeHandler = () => rootState.setIsMobile(window.innerWidth < 767);
@@ -35,22 +35,9 @@
             window.removeEventListener('resize', resizeHandler);
         };
     });
-
-    // Эффект для clickAnywhere
-    $effect(() => {
-        if (typeof document === 'undefined') return; // Проверяем, что это клиент
-
-        const destroyClickAnywhere = clickAnywhere(() => {
-            rootState.setIsActive(false);
-        });
-
-        // Убираем обработчик при удалении эффекта
-        return () => {
-            destroyClickAnywhere.destroy();
-        };
-    });
 </script>
 
+<!-- Затемняющий фон -->
 {#if rootState.getIsActive()}
     <div
         in:fade|local
@@ -59,8 +46,10 @@
     ></div>
 {/if}
 
-<div class="relative inline-block {klass}">
+<!-- Обертка для контента -->
+<div use:clickAnywhere={() => rootState.setIsActive(false)} class="relative inline-block {klass}">
     {#if children}
         {@render children()}
     {/if}
 </div>
+

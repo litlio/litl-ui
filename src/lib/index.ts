@@ -46,3 +46,5 @@ export { default as ToggleGroup} from './toggle-group/index.js';
 export { default as Tooltip} from './tooltip/index.js';
 // PhotoUploader
 export { default as PhotoUploader } from './photo-uploader/photo-uploader.svelte';
+// Carousel
+export { default as Carousel} from './carousel/index.js';

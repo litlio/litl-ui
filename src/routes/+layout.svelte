@@ -9,7 +9,7 @@
     <div class="container mx-auto flex items-center justify-between p-2">
 
         <div class="flex items-center">
-            <a href="/" class="text-xl font-bold text-foreground hover:text-accent-foreground transition-colors">
+            <a href="/" class="text-xl font-bold text-neutral-950 dark:text-white transition-colors">
                 LitlUI
             </a>
         </div>

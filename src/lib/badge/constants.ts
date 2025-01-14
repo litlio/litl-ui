@@ -4,7 +4,7 @@ export const COLORS = {
   blue: 'bg-blue-700 text-white dark:bg-blue-700 dark:text-white',
   purple: 'bg-purple-700 text-white dark:bg-purple-700 dark:text-white',
   amber: 'bg-amber-700 text-black dark:bg-amber-700',
-  red: 'bg-destructive text-white dark:bg-destructive dark:text-white',
+  red: 'bg-red-500 text-white dark:bg-red-500 dark:text-white',
   pink: 'bg-pink-700 text-white dark:bg-pink-700 dark:text-white',
   green: 'bg-green-700 text-white dark:bg-green-700 dark:text-white',
   teal: 'bg-teal-700 text-white dark:bg-teal-700 dark:text-white',

@@ -55,8 +55,8 @@
 
 <div class="container mx-auto p-4">
     <div class="my-16 text-center" id="title">
-        <h1 class="mb-3 text-3xl font-extrabold text-foreground md:text-4xl">Search Input</h1>
-        <p class="text-foreground dark:text-foreground">Showcasing different Search Input states.</p>
+        <h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white md:text-4xl">Search Input</h1>
+        <p class="text-neutral-950 dark:text-white">Showcasing different Search Input states.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-{cols} gap-0">

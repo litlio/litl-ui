@@ -26,8 +26,8 @@
 
 <div class="container mx-auto p-4">
     <div class="my-16 text-center" id="title">
-        <h1 class="mb-3 text-3xl font-extrabold text-foreground md:text-4xl">Card</h1>
-        <p class="text-foreground">A showcase of card components built with Svelte and TailwindCSS.</p>
+        <h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white md:text-4xl">Card</h1>
+        <p class="text-neutral-950 dark:text-white">A showcase of card components built with Svelte and TailwindCSS.</p>
     </div>
 
     <!-- Сетка карточек -->
@@ -40,7 +40,7 @@
             >
                 <Card.Root class="w-full">
                     <Card.Header>
-                        <h2 class="text-lg font-bold text-foreground">{card.title}</h2>
+                        <h2 class="text-lg font-bold text-neutral-950 dark:text-white">{card.title}</h2>
                         <p class="text-sm text-neutral-600 dark:text-neutral-400">{card.description}</p>
                     </Card.Header>
                     <Card.Content>

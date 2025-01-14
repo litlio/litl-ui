@@ -50,7 +50,7 @@
 <div class="flex flex-col items-center space-y-2">
     <div
         class={`inline-flex items-center rounded-lg overflow-hidden 
-            ${error ? 'border border-destructive dark:border-destructive' : 'border border-neutral-300 dark:border-neutral-600'} 
+            ${error ? 'border border-red-500 dark:border-red-500' : 'border border-neutral-300 dark:border-neutral-600'} 
             bg-white dark:bg-neutral-800`}
     >
         {#each Array(length).fill(0) as _, index}
@@ -63,13 +63,13 @@
             onkeydown={(e) => handleKeyDown(e, index)}
             bind:this={inputs[index]}
             class={`w-10 h-10 text-center border-r last:border-r-0 
-                ${error ? 'border-destructive dark:border-destructive text-destructive dark:text-destructive' : 'border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white'} 
+                ${error ? 'border-red-500 dark:border-red-500 text-red-500 dark:text-red-500' : 'border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white'} 
                 focus:ring-0 focus:outline-none bg-transparent text-md font-medium`}
             disabled={disabled}
         />
         {/each}
     </div>
     {#if error}
-        <p class="text-destructive dark:text-destructive text-sm">{error}</p>
+        <p class="text-red-500 dark:text-red-500 text-sm">{error}</p>
     {/if}
 </div>

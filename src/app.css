@@ -16,87 +16,12 @@ html[data-theme=dark] {
 
 :root {
     --background: hsl(0, 0%, 100%);
-    --color-secondary: hsl(40, 4.8%, 95.9%);
-    --color-destructive: hsl(0, 84.2%, 60.2%);
-    --color-foreground: hsl(240, 10%, 3.9%);
-    --color-destructive-foreground: hsl(0, 0%, 100%);
-    --color-border: hls(240, 5.9%, 90%);
-    --color-input: hsl(240, 4.9%, 83.9%);
 }
 
 .dark {
   --background: hsl(240, 10%, 3.9%);
-  --color-secondary: hsl(240, 3.7%, 15.9%);
-  --color-destructive: hsl(0, 74%, 50%);
-  --color-foreground: hsl(240, 4.8%, 95.9%);
-  --color-destructive-foreground: hsl(0, 0%, 100%);
-  --color-border: hls(240, 3.7%, 15.9%);
-  --color-input: hsl(240, 3.7%, 15.9%);
 }
 
 body {
   background-color: var(--background);
-}
-
-
-@layer utilities {
-
-  .bg-secondary {
-    background-color: var(--color-secondary);
-  }
-
-  .dark .dark\:bg-secondary {
-    background-color: var(--color-secondary);
-  }
-
-  /* Destructive */
-
-  .bg-destructive {
-    background-color: var(--color-destructive);
-  }
-
-  .dark .dark\:bg-destructive {
-    background-color: var(--color-destructive);
-  }
-
-  .text-destructive {
-    color: var(--color-destructive);
-  }
-
-  .dark .dark\:text-destructive {
-    color: var(--color-destructive);
-  }
-
-  .text-destructive-foreground {
-    color: var(--color-destructive-foreground);
-  }
-
-  .dark .dark\:text-destructive-foreground {
-    color: var(--color-destructive-foreground);
-  }
-
-  /* Border  */
-  .border-destructive {
-    border-color: var(--color-destructive);
-  }
-  .dark .dark\:border-destructive {
-    border-color: var(--color-destructive);
-  }
-
-  .border-input {
-    border-color: var(--color-input);
-  }
-
-  .text-foreground {
-    color: var(--color-foreground);
-  }
-
-  /* Ring */
-  .ring-destructive {
-    box-shadow: 0 0 0 4px var(--color-destructive);
-  }
-
-  .ring-destructive\/40 {
-    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
-  }
 }

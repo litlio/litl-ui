@@ -3,7 +3,6 @@
     import { randomString } from '../utils/random.js';
     import type { FullAutoFill } from 'svelte/elements';
     
-
     type propsT = {
         type?: 'text' | 'number' | 'email' | 'password';
         id?: string;
@@ -64,31 +63,40 @@
         return sizeObj[size];
     });
 
+    // Единообразный вид бордеров/ринга в светлой и темной теме
     let ringClass = $derived.by(() => {
         if (disabled) {
-            return `cursor-not-allowed border-input dark:border-input dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 placeholder-neutral-400 dark:placeholder-neutral-500`;
+            return `cursor-not-allowed border border-neutral-200 dark:border-neutral-700
+                    text-neutral-600 dark:text-neutral-600
+                    placeholder-neutral-600 dark:placeholder-neutral-600`;
         }
         if (error) {
-            return `border-destructive dark:border-destructive
-			ring-4 ring-destructive/40 dark:ring-destructive/30 
-			hover:ring-destructive/40 dark:hover:ring-destructive/30`;
+            return `border-red-500 dark:border-red-600
+                    ring-4 ring-red-500/40 dark:ring-red-600/40
+                    hover:ring-red-500/40 dark:hover:ring-red-600/40`;
         }
         if (hasRing) {
-            return `border-input
-			ring-4 ring-neutral-300/50 dark:ring-neutral-800/80`;
+            return `border-neutral-200 dark:border-neutral-700
+                    ring-4 ring-neutral-300/50 dark:ring-neutral-700/50`;
         }
-        return `border-input dark:border-input hover:border-input/80 bg-transparent`;
+        return `border-neutral-200 dark:border-neutral-700
+                hover:border-neutral-400/80 dark:hover:border-neutral-500/80
+                bg-transparent`;
     });
 
-
+    // Текст и placeholder в разных состояниях
     let inputClass = $derived.by(() => {
         if (disabled) {
-            return `bg-neutral-100 dark:bg-neutral-900 cursor-not-allowed text-neutral-200 dark:text-neutral-600 placeholder-neutral-200 dark:placeholder-neutral-400`;
+            return `bg-neutral-200 dark:bg-neutral-900 cursor-not-allowed
+                    text-neutral-400 dark:text-neutral-600
+                    placeholder-neutral-400 dark:placeholder-neutral-700`;
         }
         if (error) {
-            return `text-destructive dark:text-red-700 placeholder-neutral-400 dark:placeholder-neutral-400`;
+            return `text-red-500 dark:text-red-500
+                    placeholder-neutral-400 dark:placeholder-neutral-500`;
         }
-        return `text-foreground dark:text-neutral-950 placeholder-neutral-400 dark:placeholder-neutral-400`;
+        return `text-neutral-950 dark:text-neutral-50
+                placeholder-neutral-400 dark:placeholder-neutral-500`;
     });
 
     let inputContClass = $derived.by(() => {
@@ -104,16 +112,17 @@
         return ``;
     });
 
+    // Бордер префикса/суффикса в темной теме чуть светлее
     let prefixClass = $derived.by(() => {
         if (prefixStyling) {
-            return `bg-transparent border-r border-neutral-200 dark:border-neutral-400`;
+            return `bg-transparent border-r border-neutral-200 dark:border-neutral-700`;
         }
         return ``;
     });
 
     let suffixClass = $derived.by(() => {
         if (suffixStyling) {
-            return `bg-transparent border-l border-neutral-200 dark:border-neutral-400`;
+            return `bg-transparent border-l border-neutral-200 dark:border-neutral-700`;
         }
         return ``;
     });
@@ -189,7 +198,7 @@
                     hasRing = false;
                 }}
                 class="{inputClass} w-full h-full outline-none bg-transparent pl-3 pr-3"
-                style="padding-left: {prefix ? 'calc(1rem + 16px)' : '1rem'}; 
+                style="padding-left: {prefix ? 'calc(1rem + 16px)' : '1rem'};
                        padding-right: {suffix ? 'calc(1rem + 16px)' : '1rem'};"
             />
         </div>
@@ -198,15 +207,13 @@
     {#if error}
         <div class="mt-[8px]">
             <div class="flex items-center">
-                <div class="{errorText} text-destructive dark:text-destructive">
+                <div class="{errorText} text-red-500 dark:text-red-500">
                     {error}
                 </div>
             </div>
         </div>
     {/if}
 </div>
-
-
 {/snippet}
 
 <div>
@@ -225,3 +232,4 @@
         {@render inputSnip()}
     {/if}
 </div>
+

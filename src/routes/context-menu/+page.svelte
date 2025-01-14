@@ -26,8 +26,8 @@
 
 <div class="container mx-auto p-4">
     <div class="my-16 text-center" id="title">
-        <h1 class="mb-3 text-3xl font-extrabold text-foreground md:text-4xl">Context Menu</h1>
-        <p class="text-muted-foreground">A showcase of context menu components built with Svelte and TailwindCSS.</p>
+        <h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white md:text-4xl">Context Menu</h1>
+        <p class="text-neutral-950 dark:text-white">A showcase of context menu components built with Svelte and TailwindCSS.</p>
     </div>
 
     <!-- Сетка карточек -->
@@ -41,7 +41,7 @@
             <div class="flex flex-col gap-4 mx-auto">
                 <ContextMenu.Root>
                     <ContextMenu.Trigger>
-                        <div class="h-32 p-4 bg-neutral-50 dark:bg-neutral-700 rounded-md border-1 border-dashed border-neutral-300 flex items-center justify-center text-center">
+                        <div class="h-32 p-4 text-black dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-900 rounded-md border-1 border-dashed border-neutral-300 dark:border-neutral-700 flex items-center justify-center text-center">
                             Click right mouse button
                         </div>
                     </ContextMenu.Trigger>

@@ -88,7 +88,7 @@
 		link: `text-neutral-950 dark:text-white hover:underline 
 		hover:underline`,
 
-		error: `text-destructive-foreground bg-destructive dark:bg-destructive
+		error: `text-red-50 bg-red-500 dark:bg-red-500
 		hover:brightness-120`,
 
 		warning: `text-neutral-950 bg-amber-500 dark:bg-amber-600 
