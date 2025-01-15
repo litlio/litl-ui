@@ -7,7 +7,7 @@
         type?: 'text' | 'number' | 'email' | 'password';
         id?: string;
         name?: string;
-        value?: string;
+        value?: string | number;
         label?: string;
         error?: string;
         'aria-labelledby'?: string;
@@ -28,7 +28,7 @@
         type = 'text',
         id = undefined,
         name = undefined,
-        value = $bindable(''),
+        value = $bindable<string | number>(),
         label = undefined,
         error = undefined,
         'aria-labelledby': ariaLabelledBy = undefined,

@@ -1,6 +1,8 @@
 <script lang="ts">
-	import type { ComponentType } from "svelte";
-    import X from 'lucide-svelte/icons/x';
+	// Вместо deprecated ComponentType используем SvelteComponent
+	import type { SvelteComponent } from "svelte";
+	import X from 'lucide-svelte/icons/x';
+	type IconType = new (...args: any) => SvelteComponent;
 
 	type Image = {
 		id: string;
@@ -14,7 +16,7 @@
 		onRemove?: (imageId: string) => void;
 		maxFiles?: number;
 		maxSizeMB?: number;
-		icon?: ComponentType;
+		icon?: IconType;
 		iconProps?: Record<string, unknown>;
 		title?: string;
 		description?: string;
@@ -23,7 +25,8 @@
 	let {
 		onUpload,
 		onRemove = undefined,
-		maxFiles = 10,
+		// По умолчанию теперь 20
+		maxFiles = 20,
 		maxSizeMB = 10,
 		icon = undefined,
 		iconProps = {},
@@ -36,7 +39,7 @@
 	let fileInput: HTMLInputElement | null = null;
 
 	function generateUUID(): string {
-		return `_${Math.random().toString(36).substr(2, 9)}`;
+		return `_${Math.random().toString(36).slice(2, 9)}`;
 	}
 
 	const handleDrop = async (event: DragEvent) => {
@@ -114,13 +117,14 @@
 	};
 </script>
 
-<div class="max-w-lg mx-auto">
+<div class="w-full">
 	<!-- drag & drop -->
 	<div
 		role="button"
 		tabindex="0"
 		aria-label="Drag and drop component"
-		class="border border-dashed bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 rounded-lg p-6 text-center hover:border-neutral-300 dark:hover:border-neutral-700 focus-within:border-neutral-400 dark:focus-within:border-neutral-600 transition-colors flex flex-col items-center gap-2 md:p-8"
+
+		class="w-full border border-dashed bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 rounded-lg p-6 text-center hover:border-neutral-300 dark:hover:border-neutral-700 focus-within:border-neutral-400 dark:focus-within:border-neutral-600 transition-colors flex flex-col items-center gap-2 md:p-8"
 		ondragover={(event) => event.preventDefault()}
 		ondrop={handleDrop}
 		onclick={() => fileInput?.click()}
@@ -132,22 +136,21 @@
 		}}
 	>
 		<!-- icon -->
-        {#if icon}
-        {@const IconComponent = icon}
-        <IconComponent
-            {...iconProps}
-            class="text-neutral-400 dark:text-neutral-600"
-            style="width: {iconProps?.size || '40px'}; height: {iconProps?.size || '40px'}"
-        />
-        {/if}
+		{#if icon}
+			{@const IconComponent = icon}
+			<IconComponent
+				{...iconProps}
+				class="text-neutral-400 dark:text-neutral-600"
+				style="width: {iconProps?.size || '40px'}; height: {iconProps?.size || '40px'}"
+			/>
+		{/if}
 
-
-		<!-- titile -->
+		<!-- title -->
 		<h3 class="text-neutral-900 dark:text-neutral-400 text-lg font-medium">{title}</h3>
 
 		<!-- description -->
 		{#if description}
-			<p class="text-neutral-700 dark:text-neutral-600  text-sm">{description}</p>
+			<p class="text-neutral-700 dark:text-neutral-600 text-sm">{description}</p>
 		{/if}
 
 		<!-- Input -->
@@ -161,11 +164,8 @@
 		/>
 	</div>
 
-	<!-- img small -->
-	<div
-		class="grid grid-cols-3 sm:grid-cols-4 gap-4 my-4"
-		style="--tw-grid-auto-fit: minmax(96px, 1fr);"
-	>
+	<!-- Список превью — тоже на всю ширину -->
+	<div class="w-full grid grid-cols-3 sm:grid-cols-4 gap-4 my-4">
 		{#each images as { id, preview, loading }, index}
 			<div class="relative w-full bg-gray-100 rounded-lg overflow-hidden aspect-square">
 				{#if loading}
@@ -176,12 +176,11 @@
 				{:else}
 					<img src={preview} alt={`Image ${index + 1}`} class="w-full h-full object-cover" />
 					<button
-                        class="absolute top-1 right-1 bg-black/40 backdrop-blur-md text-white hover:text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md"
-                        onclick={() => removeImage(id)}
-                    >
-                        <X class="w-4 h-4" />
-                    </button>
-
+						class="absolute top-1 right-1 bg-black/40 backdrop-blur-md text-white hover:text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md"
+						onclick={() => removeImage(id)}
+					>
+						<X class="w-4 h-4" />
+					</button>
 				{/if}
 			</div>
 		{/each}
