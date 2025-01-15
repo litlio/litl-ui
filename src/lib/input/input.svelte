@@ -61,11 +61,11 @@
         medium: 'h-[36px] text-sm',
         large: 'h-[40px] text-base',
     };
+
     let sizeClass = $derived.by(() => {
         return sizeObj[size];
     });
 
-    // Единообразный вид бордеров/ринга в светлой и темной теме
     let ringClass = $derived.by(() => {
         if (disabled) {
             return `cursor-not-allowed border border-neutral-200 dark:border-neutral-700
@@ -86,7 +86,6 @@
                 bg-transparent`;
     });
 
-    // Текст и placeholder в разных состояниях
     let inputClass = $derived.by(() => {
         if (disabled) {
             return `bg-neutral-200 dark:bg-neutral-900 cursor-not-allowed
@@ -114,7 +113,6 @@
         return ``;
     });
 
-    // Бордер префикса/суффикса в темной теме чуть светлее
     let prefixClass = $derived.by(() => {
         if (prefixStyling) {
             return `bg-transparent border-r border-neutral-200 dark:border-neutral-700`;
@@ -139,6 +137,7 @@
     let errorText = $derived.by(() => {
         return errorTextObj[size];
     });
+
 </script>
 
 {#snippet prefixSnip()}
@@ -195,7 +194,7 @@
                 autocomplete={autocomplete}
                 onblur={() => {
                     if (required && !value) {
-                        error = 'Это поле обязательно для заполнения';
+                        error = 'This field is required.';
                     } else {
                         error = undefined;
                     }
@@ -221,7 +220,6 @@
         </div>
     {/if}
 </div>
-
 {/snippet}
 
 <div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickAnywhere, clickOutside } from '../utils/event.js';
+	import { clickAnywhere } from '../utils/event.js';
 	import { setContext, type Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { createRootState } from './root.svelte.js';
@@ -15,7 +15,7 @@
 
 	const rootState = createRootState({
 		isMobile: false,
-		selected: '',
+		selected: value,
 		isActive: false,
 		size,
 		contentPosition: 'top-[112%',
@@ -53,6 +53,6 @@
 	></div>
 {/if}
 
-<div use:clickAnywhere={() => rootState.setIsActive(false)} class="relative inline-block {klass}">
+<div use:clickAnywhere={() => rootState.setIsActive(false)} class="relative block {klass}">
     {@render children()}
 </div>

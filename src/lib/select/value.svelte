@@ -5,7 +5,7 @@
 	type propsT = {
 		placeholder?: string;
 	};
-	let { placeholder = 'placeholder' }: propsT = $props();
+	let { placeholder = '' }: propsT = $props();
 
 	const rootState = getContext<{
 		getSelected: () => string;
