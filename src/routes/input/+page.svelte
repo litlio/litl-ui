@@ -5,6 +5,7 @@
         { id: 1, placeholder: "Medium" as const, size: "medium" as const, state: "Medium Input" },
         { id: 2, placeholder: "Error" as const, size: "medium" as const, error: "Error message", state: "Input with Error" },
         { id: 3, placeholder: "medium" as const, size: "medium" as const, disabled: true, state: "Disabled Input" },
+        { id: 4, placeholder: "Required" as const, size: "medium" as const, required: true, state: "Required Input" },
     ];
 
     const cols = 3;
@@ -29,7 +30,8 @@
                     placeholder={card.placeholder} 
                     size={card.size} 
                     error={card.error} 
-                    disabled={card.disabled} 
+                    disabled={card.disabled}
+                    required={card.required}
                 />
 
                 <p class="absolute bottom-2 left-2 text-xs text-neutral-400 dark:text-neutral-600">{card.state}</p>

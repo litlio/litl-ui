@@ -10,6 +10,7 @@
         value?: string | number;
         label?: string;
         error?: string;
+        required?: boolean;
         'aria-labelledby'?: string;
         'aria-describedby'?: string;
         size?: 'small' | 'medium' | 'large';
@@ -31,6 +32,7 @@
         value = $bindable<string | number>(),
         label = undefined,
         error = undefined,
+        required = false,
         'aria-labelledby': ariaLabelledBy = undefined,
         'aria-describedby': ariaDescribedBy = undefined,
         size = 'medium',
@@ -191,11 +193,16 @@
                 {placeholder}
                 {disabled}
                 autocomplete={autocomplete}
+                onblur={() => {
+                    if (required && !value) {
+                        error = 'Это поле обязательно для заполнения';
+                    } else {
+                        error = undefined;
+                    }
+                    hasRing = false;
+                }}
                 onfocus={() => {
                     hasRing = true;
-                }}
-                onblur={() => {
-                    hasRing = false;
                 }}
                 class="{inputClass} w-full h-full outline-none bg-transparent pl-3 pr-3"
                 style="padding-left: {prefix ? 'calc(1rem + 16px)' : '1rem'};
@@ -214,6 +221,7 @@
         </div>
     {/if}
 </div>
+
 {/snippet}
 
 <div>
