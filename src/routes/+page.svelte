@@ -17,6 +17,7 @@
         { name: 'Modal', href: '/modal' },
         { name: 'Progress', href: '/progress' },
         { name: 'Tabs', href: '/tabs' },
+        { name: 'Skeleton', href: '/skeleton' },
         { name: 'Switch', href: '/switch' },
         { name: 'TextArea', href: '/textarea' },
         { name: 'Context Menu', href: '/context-menu' },
