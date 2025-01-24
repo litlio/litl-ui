@@ -46,14 +46,14 @@
 
     const variantClasses = {
         ghost: {
-            default:       'text-neutral-950 dark:text-white bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-700',
-            selected:      'bg-neutral-200 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-200',
-            hoverSelected: 'hover:bg-neutral-300 dark:hover:bg-neutral-600',
+            default:       'text-neutral-950 dark:text-white hover:text-neutral-500 dark:hover:text-neutral-400 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-700',
+            selected:      'bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-200',
+            hoverSelected: 'hover:bg-neutral-100 dark:hover:bg-neutral-700',
         },
         outline: {
-            default:       'text-neutral-950 dark:text-white border border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-700',
-            selected:      'border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-200',
-            hoverSelected: 'hover:border-neutral-400 dark:hover:border-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-600',
+            default:       'text-neutral-950 dark:text-white hover:text-neutral-500 dark:hover:text-neutral-400 border border-neutral-200 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-700',
+            selected:      'border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-200',
+            hoverSelected: 'hover:border-neutral-200 dark:hover:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700',
         },
     };
 

@@ -1,5 +1,7 @@
 <script lang="ts">
-    import Skeleton from "$lib/skeleton/skeleton.svelte";  // Импортируем компонент Skeleton
+    import Input from "$lib/input/input.svelte";
+    let minPrice: string | number = '';
+    let maxPrice: string | number = '';
 </script>
 
 <div class="min-h-screen bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-center">
@@ -8,14 +10,30 @@
 
     <!-- Flex-контейнер для скелетонов -->
     <div class="flex items-center space-x-4">
-      <!-- Круглый скелетон -->
-      <Skeleton rounded class="w-12 h-12" />
-
-      <!-- Прямоугольные скелетоны -->
-      <div class="space-y-2">
-        <Skeleton class="h-4 w-[250px]" />
-        <Skeleton class="h-4 w-[200px]" />
-      </div>
+      <div class="flex items-center gap-2 rounded-full border border-neutral-200 px-4 py-2">
+        <!-- Инпут "От" -->
+        <Input
+            type="number"
+            bind:value={minPrice}
+            prefix="от"
+            prefixStyling={false}
+            class="!border-none !ring-0 !px-0 [&>div]:!h-auto"
+        />
+        
+        <!-- Разделитель -->
+        <div class="h-6 border-l border-neutral-200 mx-2"></div>
+        
+        <!-- Инпут "До" -->
+        <Input
+            type="number"
+            bind:value={maxPrice}
+            prefix="до"
+            suffix="$"
+            prefixStyling={false}
+            suffixStyling={false}
+            class="!border-none !ring-0 !px-0 [&>div]:!h-auto"
+        />
+    </div>
     </div>
   </div>
 </div>
