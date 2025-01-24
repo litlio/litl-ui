@@ -2,7 +2,6 @@
     import { type Snippet } from "svelte";
     import type { IconProps } from '$lib/types/ui.js';
 
-    /** Параметры пропсов */
     type propsT = {
         isSelected?: boolean;
         onClick?: (isSelected: boolean) => void;
@@ -12,11 +11,10 @@
         size?: 'tiny' | 'small' | 'medium' | 'large';
         variant?: 'ghost' | 'outline';
         icon?: IconProps;
-        rounded?: boolean;         // Если true → делает "rounded-full"
-        children?: Snippet;       // Можно передать текст или слот
+        rounded?: boolean;
+        children?: Snippet;
     };
 
-    /** Деструктуризация пропсов */
     let {
         isSelected = $bindable(false),
         onClick = undefined,
@@ -30,13 +28,8 @@
         children,
     }: propsT = $props();
 
-    /** Внутренний стейт: выбран или нет */
     let selectedState = $state(isSelected);
 
-    /**
-     * 1) Настраиваем шрифты/лидинг для разных размеров:
-     *    tiny, small, medium, large
-     */
     const typographySizes = {
         tiny:   'text-xs leading-3',
         small:  'text-sm leading-4',
@@ -44,21 +37,13 @@
         large:  'text-base leading-[24px]',
     };
 
-    /**
-     * 2) Настраиваем «числовые» размеры.
-     *    - Для кнопок с иконкой-only: w/h
-     *    - Для кнопок с текстом: только h, а ширина растёт от контента + небольшие паддинги
-     */
     const dimensions = {
-        tiny:   { h: 28, w: 28, px:  8  },  // px-2
-        small:  { h: 32, w: 32, px: 12 },  // px-3
-        medium: { h: 36, w: 36, px: 10 },  // px-[10px]
-        large:  { h: 40, w: 40, px: 12 },  // px-[12px]
+        tiny:   { h: 'h-7', w: 'w-7', px: 'px-2' },
+        small:  { h: 'h-8', w: 'w-8', px: 'px-3' },
+        medium: { h: 'h-9', w: 'w-9', px: 'px-[10px]' },
+        large:  { h: 'h-10', w: 'w-10', px: 'px-3' },
     };
 
-    /**
-     * 3) Variant-классы (ghost / outline) для default / selected / hoverSelected
-     */
     const variantClasses = {
         ghost: {
             default:       'text-neutral-950 dark:text-white bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-700',
@@ -72,58 +57,36 @@
         },
     };
 
-    /**
-     * 4) Disabled + Selected стили
-     */
     const disabledSelectedClasses = {
         ghost:   'bg-neutral-300 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400',
         outline: 'border-neutral-400 dark:border-neutral-600 bg-neutral-300 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400',
     };
 
-    /**
-     * 5) "Собираем" финальный класс кнопки.
-     *    Логика:
-     *    - Если только иконка (без children), делаем ровно w/h = 36×36 (или другие размеры).
-     *    - Иначе (текст), делаем высоту 36, ширина "авто" с min-width (при желании).
-     */
     let combinedClass = $derived.by(() => {
         const t = typographySizes[size] ?? '';
-        const { h, w, px } = dimensions[size] ?? {h: 36, w: 36, px: 10};
+        const { h, w, px } = dimensions[size] ?? { h: 'h-9', w: 'w-9', px: 'px-[10px]' };
 
-        // 1) "форма" кнопки
-        // Иконка-only: жёстко w/h = X
-        // Текст: высота = X, ширина — авто, с паддингами по бокам
         let shapeClass = '';
-
         if (icon && !children) {
-            // Иконка-only
             shapeClass = `
                 box-border
                 flex items-center justify-center
-                w-[${w}px] h-[${h}px]
+                ${w} ${h}
                 p-0
             `;
         } else {
-            // Текст / иконка+текст
-            // Допустим, хотим высоту X, 
-            // а ширина растягивается, минимум 36px (если нужно).
-            // Можно убрать min-w, если не хотим фиксировать минимум.
             shapeClass = `
                 box-border
                 flex items-center justify-center
-                h-[${h}px]
-                min-w-[36px]
-                px-[${px}px]
+                ${h}
+                min-w-9
+                ${px}
             `;
         }
 
-        // 2) Округление
         const roundClass = rounded ? 'rounded-full' : 'rounded';
-
-        // 3) Стили варианта
         const v = variantClasses[variant];
 
-        // 4) Собираем
         if (disabled) {
             return `
                 inline-flex items-center justify-center gap-2 transition-colors
@@ -147,7 +110,6 @@
             `;
         }
 
-        // default
         return `
             inline-flex items-center justify-center gap-2 transition-colors
             ${t}
@@ -158,18 +120,12 @@
         `;
     });
 
-    /**
-     * 6) Предупреждение, если нет ariaLabel
-     */
     $effect(() => {
         if (!ariaLabel) {
             console.warn('Accessibility: Please provide a valid "ariaLabel" for Toggle.');
         }
     });
 
-    /**
-     * 7) Обработка клика
-     */
     function handleClick() {
         if (!disabled) {
             selectedState = !selectedState;
@@ -178,7 +134,6 @@
     }
 </script>
 
-<!-- Шаблоны для рендеринга иконки / иконки+текста -->
 {#snippet iconOnly()}
     {#if icon?.component}
         {@const IconComponent = icon.component}
@@ -196,7 +151,6 @@
     {/if}
 {/snippet}
 
-<!-- Основная кнопка -->
 {#snippet toggleButton()}
     <button
         type="button"
@@ -215,7 +169,6 @@
     </button>
 {/snippet}
 
-<!-- Рендерим сам toggleButton -->
 <div>
     {@render toggleButton()}
 </div>
