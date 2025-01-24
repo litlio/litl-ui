@@ -21,6 +21,7 @@
 		disabled?: boolean;
 		variant: "ghost" | "outline";
 		size: "tiny" | "small" | "medium" | "large";
+		rounded?: boolean;
 	};
 
 	const toggleGroup = getContext<ToggleGroupContext>("toggle-group");
@@ -39,6 +40,7 @@
 			toggleGroup.toggleValue(value);
 		}
 	};
+
 </script>
 
 <Toggle
@@ -48,6 +50,7 @@
 	disabled={isDisabled()}
 	variant={toggleGroup.variant}
 	size={toggleGroup.size}
+	rounded={toggleGroup.rounded}
 >
 	{#if icon?.component}
 		{@const IconComponent = icon.component}

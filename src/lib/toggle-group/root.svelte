@@ -7,7 +7,8 @@
 		onChange?: (value: string | string[]) => void;
 		disabled?: boolean;
 		variant?: "ghost" | "outline";
-		size?: "tiny" | "small" | "medium" | "large"; // Новый пропс
+		size?: "tiny" | "small" | "medium" | "large";
+		rounded?: boolean;
 		children: Snippet | undefined;
 	};
 
@@ -18,6 +19,7 @@
 		disabled = false,
 		variant = "ghost",
 		size = "medium",
+		rounded = false,
 		children,
 	}: propsT = $props();
 
@@ -50,10 +52,11 @@
 		disabled,
 		variant,
 		size,
+		rounded,
 	});
 </script>
 
-<div class={`flex gap-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+<div class={`flex space-x-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
 	{#if children}
 		{@render children()}
 	{/if}

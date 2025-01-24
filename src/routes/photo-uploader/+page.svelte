@@ -6,14 +6,14 @@
 	const uploaders = [
 		{
 			id: 1,
-			title: 'Upload your profile pictures',
-			description: 'Supported: PNG, JPEG. Max size: 10MB.',
+			title: 'Upload your property images',
+			description: 'Supported: PNG, JPEG, AVIF, WEBP. Max size: 5MB.',
 			state: 'Profile Pictures',
 		},
 		{
 			id: 2,
 			title: 'Upload your documents',
-			description: 'Supported: PNG, JPEG. Max size: 10MB.',
+			description: 'Supported: PNG, JPEG, AVIF, WEBP. Max size: 5MB.',
 			state: 'Documents',
 		},
 	];

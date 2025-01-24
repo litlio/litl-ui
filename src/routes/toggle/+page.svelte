@@ -9,9 +9,12 @@
         { id: 3, isSelected: false, disabled: true, content: "Disabled", state: "Disabled State" },
         { id: 4, isSelected: true, disabled: true, content: "Disabled & Checked", state: "Disabled & Checked State" },
         { id: 5, isSelected: false, disabled: false, content: Bold, iconProps: { size: 16 }, state: "With Icon" },
-        { id: 6, isSelected: false, disabled: false, content: Italic, iconProps: { size: 16 }, state: "With Another Icon" },
-        { id: 7, isSelected: false, disabled: false, content: "Outline Ghost", variant: "ghost" as const, state: "Ghost Variant" },
-        { id: 8, isSelected: false, disabled: false, content: "Outline", variant: "outline" as const, state: "Outline Variant" },
+        { id: 6, isSelected: false, disabled: false, rounded: true, content: Bold, iconProps: { size: 16 }, state: "With Icon & Rounded" },
+        { id: 7, isSelected: false, disabled: false, rounded: true, variant: "outline" as const, content: "3", state: "With Icon & Rounded & Outline" },
+        { id: 8, isSelected: false, disabled: false, content: Italic, iconProps: { size: 16 }, state: "With Another Icon" },
+        { id: 9, isSelected: false, disabled: false, content: "Outline Ghost", variant: "ghost" as const, state: "Ghost Variant" },
+        { id: 10, isSelected: false, disabled: false, content: "Outline", variant: "outline" as const, state: "Outline Variant" },
+        { id: 11, isSelected: false, disabled: false, rounded: true, content: "Outline", variant: "outline" as const, state: "Outline Rounded" },
     ];
 
     const cols = 3;
@@ -34,6 +37,7 @@
                     <Toggle 
                         bind:isSelected={toggle.isSelected}
                         disabled={toggle.disabled}
+                        rounded={toggle.rounded}
                         variant={toggle.variant}
                         ariaLabel={`Toggle for ${toggle.state}`}
                     >

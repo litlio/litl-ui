@@ -28,7 +28,7 @@
 	let {
 		onUpload,
 		onRemove = undefined,
-		maxFiles = 5,
+		maxFiles = 16,
 		maxSizeMB = 5,
 		icon = undefined,
 		iconProps = {},
@@ -82,20 +82,24 @@
 			}
 
 			// Проверка типа файла
-			const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+			const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/avif", "image/webp"];
 			if (!validTypes.includes(file.type)) {
-				errorMessage = `Файл "${file.name}" имеет неподдерживаемый формат. Разрешены: PNG, JPEG.`;
+				errorMessage = `The file "${file.name}" has an unsupported format. Allowed formats: PNG, JPEG.`;
 				continue;
 			}
 
-			const id = generateUUID(); // Генерация уникального id для изображения
+			const id = generateUUID();
 
-			images.push({
-				id,
-				file,
-				preview: "",
-				loading: true,
-			});
+			images = [
+				...images,
+				{
+					id,
+					file,
+					preview: "",
+					loading: true,
+				}
+			];
+
 
 			const reader = new FileReader();
 			reader.onload = () => {
@@ -135,7 +139,10 @@
 		tabindex="0"
 		aria-label="Drag and drop component"
 		class="w-full border border-dashed bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 rounded-lg p-6 text-center hover:border-neutral-300 dark:hover:border-neutral-700 focus-within:border-neutral-400 dark:focus-within:border-neutral-600 transition-colors flex flex-col items-center gap-2 md:p-8"
-		ondragover={(event) => event.preventDefault()}
+		ondragover={(event) => {
+			event.preventDefault();
+			event.stopPropagation();
+		}}		
 		ondrop={handleDrop}
 		onclick={() => fileInput?.click()}
 		onkeydown={(event) => {

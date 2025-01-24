@@ -78,6 +78,20 @@
             { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false },
         ],
     },
+    {
+        id: 7,
+        state: "Outline Group Rounded",
+        type: "multiple" as const,
+        disabled: false,
+        rounded: true,
+        variant: "outline" as const,
+        value: [],
+        items: [
+            { value: "bold", icon: { component: Bold, props: { size: 16 } }, ariaLabel: "Toggle bold", disabled: false },
+            { value: "italic", icon: { component: Italic, props: { size: 16 } }, ariaLabel: "Toggle italic", disabled: false },
+            { value: "underline", icon: { component: Underline, props: { size: 16 } }, ariaLabel: "Toggle underline", disabled: false },
+        ],
+    },
 ];
 
 
@@ -102,6 +116,7 @@
                         bind:value={example.value}
                         type={example.type}
                         disabled={example.disabled}
+                        rounded={example.rounded}
                         variant={example.variant}
                     >
                         {#each example.items as item}
