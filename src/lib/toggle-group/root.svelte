@@ -15,7 +15,7 @@
     let {
         type = "multiple",
         value = $bindable<string | string[]>([]),
-        onChange = (v) => console.log("Changed:", v),
+        onChange,
         disabled = false,
         variant = "ghost",
         size = "medium",
@@ -37,8 +37,8 @@
                 : [...currentValues, itemValue];
         }
 
-        value = newValue;
-        onChange(newValue);
+        value = [...newValue];
+        onChange?.(newValue);
     };
 
     setContext("toggle-group", {

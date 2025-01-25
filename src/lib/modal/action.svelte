@@ -8,7 +8,7 @@
 		'aria-label'?: string;
 		shape?: 'circle' | 'square' | undefined;
 		size?: 'tiny' | 'small' | 'medium' | 'large';
-		type?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'error' | 'warning';
+		variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'error' | 'warning';
 		prefix?: Component | undefined;
 		suffix?: Component | undefined;
 		rounded?: boolean;
@@ -16,11 +16,11 @@
 		disabled?: boolean;
 		children: Snippet;
 	};
-	let { children, type = 'primary', ...attributes }: propsT = $props();
+	let { children, variant = 'primary', ...attributes }: propsT = $props();
 </script>
 
 {#if children}
-	<Button {...attributes} type={type}>
+	<Button {...attributes} variant={variant}>
 		{@render children()}
 	</Button>
 {/if}
