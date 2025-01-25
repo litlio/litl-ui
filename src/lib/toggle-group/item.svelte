@@ -1,67 +1,66 @@
 <script lang="ts">
-	import { getContext } from "svelte";
-	import Toggle from "$lib/toggle/toggle.svelte";
-	import type { IconProps } from "$lib/types/ui.js";
-	import { type Snippet } from "svelte";
+    import { getContext } from "svelte";
+    import Toggle from "$lib/toggle/toggle.svelte";
+    import type { IconProps } from "$lib/types/ui.js";
+    import type { Snippet } from "svelte";
 
-	type propsT = {
-		value: string;
-		ariaLabel: string;
-		disabled?: boolean;
-		icon?: IconProps;
-		children?: Snippet;
-	};
+    type Props = {
+        value: string;
+        ariaLabel: string;
+        disabled?: boolean;
+        icon?: IconProps;
+        children?: Snippet;
+    };
 
-	let { value, ariaLabel, disabled, icon, children }: propsT = $props();
+    let { value, ariaLabel, disabled = false, icon, children }: Props = $props();
 
-	type ToggleGroupContext = {
-		type: "single" | "multiple";
-		value: string | string[];
-		toggleValue: (value: string) => void;
-		disabled?: boolean;
-		variant: "ghost" | "outline";
-		size: "tiny" | "small" | "medium" | "large";
-		rounded?: boolean;
-	};
+    type Context = {
+        type: "single" | "multiple";
+        value: string | string[];
+        toggleValue: (value: string) => void;
+        disabled: boolean;
+        variant: "ghost" | "outline";
+        size: "tiny" | "small" | "medium" | "large";
+        rounded: boolean;
+    };
 
-	const toggleGroup = getContext<ToggleGroupContext>("toggle-group");
+    const context = getContext<Context>("toggle-group");
 
-	let isSelected = $derived(() => {
-		if (toggleGroup.type === "single") {
-			return toggleGroup.value === value;
-		}
-		return Array.isArray(toggleGroup.value) && toggleGroup.value.includes(value);
-	});
+    // Исправлено: убрана функция-обертка
+    let isSelected = $derived(
+        context.type === "single"
+            ? context.value === value
+            : Array.isArray(context.value) && context.value.includes(value)
+    );
 
-	let isDisabled = $derived(() => toggleGroup.disabled || disabled || false);
+    let isDisabled = $derived(context.disabled || disabled);
 
-	const handleClick = () => {
-		if (!isDisabled()) {
-			toggleGroup.toggleValue(value);
-		}
-	};
-
+    const handleClick = () => {
+        if (!isDisabled) {
+            context.toggleValue(value);
+        }
+    };
 </script>
 
 <Toggle
-	isSelected={isSelected()}
-	ariaLabel={ariaLabel}
-	onClick={handleClick}
-	disabled={isDisabled()}
-	variant={toggleGroup.variant}
-	size={toggleGroup.size}
-	rounded={toggleGroup.rounded}
+    isSelected={isSelected}
+    {ariaLabel}
+    onClick={handleClick}
+    {disabled}
+    variant={context.variant}
+    size={context.size}
+    rounded={context.rounded}
 >
-	{#if icon?.component}
-		{@const IconComponent = icon.component}
-		<IconComponent {...icon.props} />
-	{/if}
-	{#if typeof children === "function"}
-		<span>{@render children()}</span>
-	{:else if children}
-		<span>{children}</span>
-	{/if}
+    {#if icon?.component}
+        {@const Icon = icon.component}
+        <Icon {...icon.props} />
+    {/if}
+    
+    {#if children}
+        {#if typeof children === "function"}
+            <span>{@render children()}</span>
+        {:else}
+            <span>{children}</span>
+        {/if}
+    {/if}
 </Toggle>
-
-
-

@@ -1,41 +1,53 @@
 <script lang="ts">
-    import Input from "$lib/input/input.svelte";
-    let minPrice: string | number = '';
-    let maxPrice: string | number = '';
+  import { ToggleGroup } from "$lib/index.js";
+  let selectedValues = $state<string[]>([]);
+
+  const toggleConfig = {
+      type: "multiple" as const,
+      disabled: false,
+      rounded: true,
+      variant: "outline" as const,
+      items: [
+          { value: "studio", children: "Студия", ariaLabel: "Toggle Studio" },
+          { value: "1", children: "1", ariaLabel: "Toggle 1" },
+          { value: "2", children: "2", ariaLabel: "Toggle 2" },
+          { value: "3", children: "3", ariaLabel: "Toggle 3" },
+          { value: "4", children: "4", ariaLabel: "Toggle 4" }
+      ]
+  };
+
+  $effect(() => {
+      const filters = {
+          selectedRooms: selectedValues,
+      };
+      console.log('Active filters:', JSON.stringify(filters, null, 2));
+  });
 </script>
 
 <div class="min-h-screen bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-center">
-  <div class="container max-w-lg mx-auto px-4 py-16">
-    <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Test component page</h1>
+<div class="container max-w-lg mx-auto px-4 py-16">
+  <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Test component page</h1>
 
-    <!-- Flex-контейнер для скелетонов -->
-    <div class="flex items-center space-x-4">
-      <div class="flex items-center gap-2 rounded-full border border-neutral-200 px-4 py-2">
-        <!-- Инпут "От" -->
-        <Input
-            type="number"
-            bind:value={minPrice}
-            prefix="от"
-            prefixStyling={false}
-            class="!border-none !ring-0 !px-0 [&>div]:!h-auto"
-        />
-        
-        <!-- Разделитель -->
-        <div class="h-6 border-l border-neutral-200 mx-2"></div>
-        
-        <!-- Инпут "До" -->
-        <Input
-            type="number"
-            bind:value={maxPrice}
-            prefix="до"
-            suffix="$"
-            prefixStyling={false}
-            suffixStyling={false}
-            class="!border-none !ring-0 !px-0 [&>div]:!h-auto"
-        />
-    </div>
-    </div>
+  <!-- Flex-контейнер для скелетонов -->
+  <div class="flex items-center space-x-4">
+    <ToggleGroup.Root
+          bind:value={selectedValues}
+          type={toggleConfig.type}
+          disabled={toggleConfig.disabled}
+          rounded={toggleConfig.rounded}
+          variant={toggleConfig.variant}
+      >
+          {#each toggleConfig.items as item}
+              <ToggleGroup.Item 
+                  value={item.value}
+                  ariaLabel={item.ariaLabel}
+              >
+                  {item.children}
+              </ToggleGroup.Item>
+          {/each}
+      </ToggleGroup.Root>
   </div>
+</div>
 </div>
 
   

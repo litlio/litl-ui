@@ -1,63 +1,59 @@
 <script lang="ts">
-	import { setContext, type Snippet } from "svelte";
+    import { setContext, type Snippet } from "svelte";
 
-	type propsT = {
-		type?: "single" | "multiple";
-		value?: string | string[];
-		onChange?: (value: string | string[]) => void;
-		disabled?: boolean;
-		variant?: "ghost" | "outline";
-		size?: "tiny" | "small" | "medium" | "large";
-		rounded?: boolean;
-		children: Snippet | undefined;
-	};
+    type Props = {
+        type?: "single" | "multiple";
+        value?: string | string[];
+        onChange?: (value: string | string[]) => void;
+        disabled?: boolean;
+        variant?: "ghost" | "outline";
+        size?: "tiny" | "small" | "medium" | "large";
+        rounded?: boolean;
+        children?: Snippet;
+    };
 
-	let {
-		type = "multiple",
-		value = $bindable<string | string[]>(),
-		onChange = () => {},
-		disabled = false,
-		variant = "ghost",
-		size = "medium",
-		rounded = false,
-		children,
-	}: propsT = $props();
+    let {
+        type = "multiple",
+        value = $bindable<string | string[]>([]),
+        onChange = (v) => console.log("Changed:", v),
+        disabled = false,
+        variant = "ghost",
+        size = "medium",
+        rounded = false,
+        children,
+    }: Props = $props();
 
-	let internalValue = $state(
-		type === "single" ? (typeof value === "string" ? value : "") : Array.isArray(value) ? value : []
-	);
+    const toggleValue = (itemValue: string) => {
+        if (disabled) return;
 
-	const updateValue = (itemValue: string) => {
-		if (disabled) return;
+        let newValue: string | string[];
+        
+        if (type === "single") {
+            newValue = value === itemValue ? "" : itemValue;
+        } else {
+            const currentValues = Array.isArray(value) ? value : [];
+            newValue = currentValues.includes(itemValue)
+                ? currentValues.filter(v => v !== itemValue)
+                : [...currentValues, itemValue];
+        }
 
-		if (type === "single") {
-			internalValue = internalValue === itemValue ? "" : itemValue;
-		} else {
-			internalValue = Array.isArray(internalValue)
-				? internalValue.includes(itemValue)
-					? internalValue.filter((val) => val !== itemValue)
-					: [...internalValue, itemValue]
-				: [];
-		}
+        value = newValue;
+        onChange(newValue);
+    };
 
-		onChange?.(internalValue);
-	};
-
-	setContext("toggle-group", {
-		type,
-		get value() {
-			return internalValue;
-		},
-		toggleValue: updateValue,
-		disabled,
-		variant,
-		size,
-		rounded,
-	});
+    setContext("toggle-group", {
+        type,
+        value,
+        toggleValue,
+        disabled,
+        variant,
+        size,
+        rounded,
+    });
 </script>
 
-<div class={`flex space-x-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
-	{#if children}
-		{@render children()}
-	{/if}
+<div class="flex gap-2 {disabled ? 'opacity-50 pointer-events-none' : ''}">
+    {#if children}
+        {@render children()}
+    {/if}
 </div>
