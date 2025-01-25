@@ -135,27 +135,34 @@
 
 	// The final styles for the button
 	let buttonClass = $derived.by(() => {
-		if (disabled || loading) {
-			return `${sizeClass} ${radiusStyle} ${loadingDisabledClass} ${fullWidthClass} ${klass}`;
-		}
-		return `${sizeClass} ${typeClass} ${radiusStyle} ${fullWidthClass} ${klass}`;
-	});
+    const base = [
+        sizeClass,
+        radiusStyle,
+        fullWidthClass,
+        klass,
+        'relative', // Добавляем relative для кнопки
+    ];
+    
+    return disabled || loading 
+        ? [...base, loadingDisabledClass].join(' ')
+        : [...base, typeClass].join(' ');
+});
 </script>
 
 {#snippet spinner()}
-	{#if loading}
-		<div class="relative {iconSize} animate-spin flex items-center justify-center">
-			<div transition:fade class="absolute w-full h-full">
-				<LoaderCircle size={16}/>
-			</div>
-		</div>
-	{/if}
+    {#if loading}
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="{iconSize} animate-spin" transition:fade>
+                <LoaderCircle size={16}/>
+            </div>
+        </div>
+    {/if}
 {/snippet}
 
 {#snippet prefixSnip()}
     {#if typeof prefix === 'object' && prefix.component}
         {@const IconComponent = prefix.component}
-        <div class="{iconSize} flex items-center justify-center">
+        <div class="{iconSize} flex items-center justify-center relative">
             <IconComponent {...prefix.props} />
         </div>
     {:else if typeof prefix === 'function'}
@@ -183,15 +190,32 @@
 {/snippet}
 
 {#snippet mainButton()}
-	<button aria-label={ariaLabel} {onclick} type={type} {disabled} class="{buttonClass} ">
-		<div class="w-full h-full px-[6px] flex items-center justify-center gap-[8px]">
-			{@render prefixSnip()}
-			<span class="font-normal first-letter:capitalize">
-				{@render children()}
-			</span>
-			{@render suffixSnip()}
-		</div>
-	</button>
+    <button 
+        aria-label={ariaLabel} 
+        {onclick} 
+        type={type} 
+        {disabled} 
+        class="{buttonClass} relative"
+    >
+        <div class="w-full h-full px-[6px] flex items-center justify-center gap-[8px] relative">
+            <!-- Контент -->
+            {#if !loading}
+                {@render prefixSnip()}
+                <span class="font-normal first-letter:capitalize">
+                    {@render children()}
+                </span>
+                {@render suffixSnip()}
+            {:else}
+                <!-- Пустой span для сохранения высоты -->
+                <span class="opacity-0">
+                    {@render children()}
+                </span>
+            {/if}
+            
+            <!-- Спиннер -->
+            {@render spinner()}
+        </div>
+    </button>
 {/snippet}
 
 {#snippet withShape()}
