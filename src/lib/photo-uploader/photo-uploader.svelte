@@ -1,9 +1,7 @@
 <script lang="ts">
-	// Импортируем только нужные типы
 	import type { SvelteComponent } from 'svelte';
-	import X from 'lucide-svelte/icons/x'; // для удаления изображений
+	import X from 'lucide-svelte/icons/x';
 
-	// Типы данных для изображений
 	type Image = {
 		id: string;
 		file: File;
@@ -14,143 +12,141 @@
 	type IconType = new (...args: any) => SvelteComponent;
 
 	type UploadProps = {
-		onUpload?: (files: File[]) => void;
+		onUpload?: (files: File[]) => Promise<void> | void;
 		onRemove?: (imageId: string) => void;
 		maxFiles?: number;
 		maxSizeMB?: number;
+		allowedTypes?: string[];
 		icon?: IconType;
 		iconProps?: Record<string, unknown>;
 		title?: string;
 		description?: string;
 	};
 
-	// Пропсы компонента
 	let {
 		onUpload,
 		onRemove = undefined,
 		maxFiles = 16,
 		maxSizeMB = 5,
+		allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/avif", "image/webp"],
 		icon = undefined,
 		iconProps = {},
 		title = "Drag & drop or choose your images",
 		description = undefined,
 	}: UploadProps = $props();
 
-	// Состояния компонента
-	let images = $state<Image[]>([]); // Состояние изображений
-	let errorMessage = $state<string | null>(null); // Ошибка
+	let images = $state<Image[]>([]);
+	let errorMessages = $state<string[]>([]);
 	let fileInput: HTMLInputElement | null = null;
 
-	// Генерация уникального id для каждого изображения
 	function generateUUID(): string {
+		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+			return crypto.randomUUID();
+		}
 		return `_${Math.random().toString(36).slice(2, 9)}`;
 	}
 
-	// Обработка перетаскивания изображений
 	const handleDrop = async (event: DragEvent) => {
 		event.preventDefault();
-		errorMessage = null;
+		errorMessages = [];
 		const files = event.dataTransfer?.files;
-		if (files) {
-			await addFiles(Array.from(files)); // Добавление файлов
-		}
+		if (files) await processFiles(Array.from(files));
 	};
 
-	// Обработка выбора файлов через input
 	const handleInput = async (event: Event) => {
-		errorMessage = null;
+		errorMessages = [];
 		const input = event.target as HTMLInputElement;
 		const files = input.files;
 		if (files) {
-			await addFiles(Array.from(files)); // Добавление файлов
+			await processFiles(Array.from(files));
+			input.value = '';
 		}
 	};
 
-	// Добавление файлов в список изображений
-	const addFiles = async (files: File[]) => {
+	const processFiles = async (files: File[]) => {
+		const newErrors: string[] = [];
+		const validFiles: File[] = [];
+
 		for (const file of files) {
-			// Проверяем лимит файлов
-			if (images.length >= maxFiles) {
-				errorMessage = `Maximum number of files: ${maxFiles}`;
+			if (images.length + validFiles.length >= maxFiles) {
+				newErrors.push(`Maximum number of files: ${maxFiles}`);
 				break;
 			}
 
-			// Проверка размера файла
 			if (file.size > maxSizeMB * 1024 * 1024) {
-				errorMessage = `The file "${file.name}" exceeds ${maxSizeMB} MB`;
+				newErrors.push(`"${file.name}": Exceeds ${maxSizeMB}MB`);
 				continue;
 			}
 
-			// Проверка типа файла
-			const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/avif", "image/webp"];
-			if (!validTypes.includes(file.type)) {
-				errorMessage = `The file "${file.name}" has an unsupported format. Allowed formats: PNG, JPEG.`;
+			if (!allowedTypes.includes(file.type)) {
+				newErrors.push(`"${file.name}": Unsupported file type`);
 				continue;
 			}
 
-			const id = generateUUID();
-
-			images = [
-				...images,
-				{
-					id,
-					file,
-					preview: "",
-					loading: true,
-				}
-			];
-
-
-			const reader = new FileReader();
-			reader.onload = () => {
-				const img = images.find((img) => img.id === id);
-				if (img) {
-					img.preview = reader.result as string; // Предпросмотр изображения
-					img.loading = false;
-				}
-			};
-			reader.readAsDataURL(file); // Чтение файла как data URL
+			validFiles.push(file);
 		}
 
-		if (onUpload) {
-			onUpload(files); // Вызов внешней функции onUpload, если она передана
+		if (newErrors.length > 0) {
+			errorMessages = [...errorMessages, ...newErrors];
+		}
+
+		if (validFiles.length > 0) {
+			await addFiles(validFiles);
 		}
 	};
 
-	// Удаление изображения
-	const removeImage = (id: string) => {
-		const index = images.findIndex((img) => img.id === id);
-		if (index > -1) {
-			URL.revokeObjectURL(images[index].preview); // Отмена создания объекта URL
-			images.splice(index, 1); // Удаление изображения из списка
-			onRemove?.(id); // Вызов onRemove, если он передан
+	const addFiles = async (files: File[]) => {
+		const newImages = files.map(file => ({
+			id: generateUUID(),
+			file,
+			preview: "",
+			loading: true
+		}));
 
-			if (images.length === 0) {
-				errorMessage = null; // Очистка ошибки, если список изображений пуст
+		images = [...images, ...newImages];
+
+		newImages.forEach(img => {
+			const reader = new FileReader();
+			reader.onload = () => {
+				const image = images.find(i => i.id === img.id);
+				if (image) {
+					image.preview = reader.result as string;
+					image.loading = false;
+				}
+			};
+			reader.readAsDataURL(img.file);
+		});
+
+		if (onUpload) {
+			try {
+				await onUpload(files);
+			} catch (e) {
+				errorMessages = [...errorMessages, e instanceof Error ? e.message : 'Upload failed'];
 			}
+		}
+	};
+
+	const removeImage = (id: string) => {
+		const index = images.findIndex(img => img.id === id);
+		if (index > -1) {
+			URL.revokeObjectURL(images[index].preview);
+			images = images.filter(img => img.id !== id);
+			onRemove?.(id);
+			if (images.length === 0) errorMessages = [];
 		}
 	};
 </script>
 
 <div class="w-full">
-	<!-- Drag & Drop зона -->
 	<div
 		role="button"
 		tabindex="0"
-		aria-label="Drag and drop component"
-		class="w-full border border-dashed bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 rounded-lg p-6 text-center hover:border-neutral-300 dark:hover:border-neutral-700 focus-within:border-neutral-400 dark:focus-within:border-neutral-600 transition-colors flex flex-col items-center gap-2 md:p-8"
-		ondragover={(event) => {
-			event.preventDefault();
-			event.stopPropagation();
-		}}		
+		aria-label="Drag and drop area"
+		class="w-full border border-dashed bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 rounded-lg p-6 text-center hover:border-neutral-300 dark:hover:border-neutral-700 focus-within:border-neutral-400 dark:focus-within:border-neutral-600 transition-colors flex flex-col items-center gap-2 md:p-8 min-h-[200px] md:min-h-[250px] justify-center"
+		ondragover={(e) => e.preventDefault()}
 		ondrop={handleDrop}
 		onclick={() => fileInput?.click()}
-		onkeydown={(event) => {
-			if (event.key === "Enter" || event.key === " ") {
-				event.preventDefault();
-				fileInput?.click();
-			}
-		}}
+		onkeydown={(e) => ['Enter', ' '].includes(e.key) && fileInput?.click()}
 	>
 		{#if icon}
 			{@const IconComponent = icon}
@@ -170,37 +166,45 @@
 		<input
 			type="file"
 			multiple
-			accept="image/png,image/jpeg,image/jpg"
+			accept={allowedTypes.join(',')}
 			class="hidden"
 			bind:this={fileInput}
 			onchange={handleInput}
 		/>
 	</div>
 
-	<!-- Превью изображений -->
-	<div class="w-full grid grid-cols-3 sm:grid-cols-4 gap-4 my-4">
-		{#each images as { id, preview, loading }, index}
-			<div class="relative w-full bg-gray-100 rounded-lg overflow-hidden aspect-square">
-				{#if loading}
-					<div class="absolute inset-0 flex items-center justify-center bg-gray-200">
-						<div class="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-					</div>
-				{:else}
-					<img src={preview} alt={`Image ${index + 1}`} class="w-full h-full object-cover" />
-					<button
-						class="absolute top-1 right-1 bg-black/40 backdrop-blur-md text-white hover:text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md"
-						onclick={() => removeImage(id)}
-					>
+	{#if images.length > 0}
+		<div class="w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 my-4">
+			{#each images as { id, preview, loading }}
+				<div class="relative w-full bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden aspect-square">
+					{#if loading}
+						<div class="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+							<div class="w-6 h-6 border-2 border-gray-400 dark:border-gray-500 border-t-transparent rounded-full animate-spin"></div>
+						</div>
+					{:else}
+						<img src={preview} alt="Preview" class="w-full h-full object-cover" />
+						<button
+							aria-label="Remove image"
+							class="absolute top-1 right-1 bg-black/40 backdrop-blur-md text-white hover:bg-black/50 rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md transition-colors"
+							onclick={(event) => { 
+								event.stopPropagation(); 
+								removeImage(id);
+							}}
+						>
 						<X class="w-4 h-4" />
 					</button>
-				{/if}
-			</div>
-		{/each}
-	</div>
+					
+					{/if}
+				</div>
+			{/each}
+		</div>
+	{/if}
 
-	{#if errorMessage}
-		<div class="text-red-500 my-4 text-sm text-start">
-			<p>{errorMessage}</p>
+	{#if errorMessages.length > 0}
+		<div class="text-red-500 dark:text-red-400 my-4 text-sm text-start space-y-1">
+			{#each errorMessages as message}
+				<p>• {message}</p>
+			{/each}
 		</div>
 	{/if}
 </div>
