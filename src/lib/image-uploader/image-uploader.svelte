@@ -1,7 +1,9 @@
 <script lang="ts">
+	// Импорт типов и иконки
 	import type { SvelteComponent } from 'svelte';
 	import X from 'lucide-svelte/icons/x';
 
+	// Тип для объектов изображений
 	type Image = {
 		id: string;
 		file: File;
@@ -11,7 +13,8 @@
 
 	type IconType = new (...args: any) => SvelteComponent;
 
-	type UploadProps = {
+	// Тип пропсов компонента
+	type ImageUploaderProps = {
 		onUpload?: (files: File[]) => Promise<void> | void;
 		onRemove?: (imageId: string) => void;
 		maxFiles?: number;
@@ -21,24 +24,30 @@
 		iconProps?: Record<string, unknown>;
 		title?: string;
 		description?: string;
+		files?: FileList | null;
 	};
 
+	// Деструктуризация входных пропсов.
+	// Для двусторонней привязки файлов используем $bindable с указанием типа.
 	let {
-		onUpload,
+		onUpload = undefined,
 		onRemove = undefined,
-		maxFiles = 16,
+		maxFiles = 18,
 		maxSizeMB = 5,
 		allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/avif", "image/webp"],
 		icon = undefined,
 		iconProps = {},
 		title = "Drag & drop or choose your images",
 		description = undefined,
-	}: UploadProps = $props();
+		files = $bindable()
+	}: ImageUploaderProps = $props();
 
+	// Локальное реактивное состояние
 	let images = $state<Image[]>([]);
 	let errorMessages = $state<string[]>([]);
 	let fileInput: HTMLInputElement | null = null;
 
+	// Вспомогательная функция для генерации UUID
 	function generateUUID(): string {
 		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
 			return crypto.randomUUID();
@@ -46,28 +55,31 @@
 		return `_${Math.random().toString(36).slice(2, 9)}`;
 	}
 
+	// Обработка перетаскивания файлов (drag & drop)
 	const handleDrop = async (event: DragEvent) => {
 		event.preventDefault();
 		errorMessages = [];
-		const files = event.dataTransfer?.files;
-		if (files) await processFiles(Array.from(files));
+		const droppedFiles = event.dataTransfer?.files;
+		if (droppedFiles) await processFiles(Array.from(droppedFiles));
 	};
 
+	// Обработка выбора файлов через input
 	const handleInput = async (event: Event) => {
 		errorMessages = [];
 		const input = event.target as HTMLInputElement;
-		const files = input.files;
-		if (files) {
-			await processFiles(Array.from(files));
+		const selectedFiles = input.files;
+		if (selectedFiles) {
+			await processFiles(Array.from(selectedFiles));
 			input.value = '';
 		}
 	};
 
-	const processFiles = async (files: File[]) => {
+	// Валидация и фильтрация выбранных файлов
+	const processFiles = async (filesArray: File[]) => {
 		const newErrors: string[] = [];
 		const validFiles: File[] = [];
 
-		for (const file of files) {
+		for (const file of filesArray) {
 			if (images.length + validFiles.length >= maxFiles) {
 				newErrors.push(`Maximum number of files: ${maxFiles}`);
 				break;
@@ -95,16 +107,19 @@
 		}
 	};
 
-	const addFiles = async (files: File[]) => {
-		const newImages = files.map(file => ({
+	// Добавление файлов в состояние и создание превью
+	const addFiles = async (filesArray: File[]) => {
+		const newImages = filesArray.map(file => ({
 			id: generateUUID(),
 			file,
 			preview: "",
 			loading: true
 		}));
 
+		// Обновляем состояние изображений
 		images = [...images, ...newImages];
 
+		// Для каждого файла создаём data URL через FileReader
 		newImages.forEach(img => {
 			const reader = new FileReader();
 			reader.onload = () => {
@@ -117,26 +132,64 @@
 			reader.readAsDataURL(img.file);
 		});
 
+		// Если задан callback onUpload, вызываем его с массивом новых файлов
 		if (onUpload) {
 			try {
-				await onUpload(files);
+				await onUpload(filesArray);
 			} catch (e) {
-				errorMessages = [...errorMessages, e instanceof Error ? e.message : 'Upload failed'];
+				errorMessages = [
+					...errorMessages,
+					e instanceof Error ? e.message : 'Upload failed'
+				];
 			}
 		}
 	};
 
+	// Удаление изображения по идентификатору
 	const removeImage = (id: string) => {
 		const index = images.findIndex(img => img.id === id);
 		if (index > -1) {
-			URL.revokeObjectURL(images[index].preview);
 			images = images.filter(img => img.id !== id);
 			onRemove?.(id);
-			if (images.length === 0) errorMessages = [];
+			if (images.length === 0) {
+				errorMessages = [];
+			}
 		}
 	};
+
+	// Флаги для предотвращения циклических обновлений между images и files
+	let internalUpdate = false;
+	let externalUpdate = false;
+
+	// Эффект: при изменении images обновляем двусторонне привязанный FileList
+	$effect(() => {
+		if (!externalUpdate) {
+			const dt = new DataTransfer();
+			images.forEach(img => dt.items.add(img.file));
+			const computedFiles = dt.files;
+			if (!files || files.length !== computedFiles.length) {
+				internalUpdate = true;
+				files = computedFiles;
+				internalUpdate = false;
+			}
+		}
+	});
+
+	// Эффект: при внешнем изменении files обновляем внутреннее состояние images
+	$effect(() => {
+		if (!internalUpdate && files) {
+			if (files.length !== images.length) {
+				externalUpdate = true;
+				images = [];
+				addFiles(Array.from(files)).then(() => {
+					externalUpdate = false;
+				});
+			}
+		}
+	});
 </script>
 
+<!-- Разметка компонента -->
 <div class="w-full">
 	<div
 		role="button"
@@ -186,14 +239,13 @@
 						<button
 							aria-label="Remove image"
 							class="absolute top-1 right-1 bg-black/40 backdrop-blur-md text-white hover:bg-black/50 rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md transition-colors"
-							onclick={(event) => { 
-								event.stopPropagation(); 
+							onclick={(event) => {
+								event.stopPropagation();
 								removeImage(id);
 							}}
 						>
-						<X class="w-4 h-4" />
-					</button>
-					
+							<X class="w-4 h-4" />
+						</button>
 					{/if}
 				</div>
 			{/each}
@@ -203,9 +255,8 @@
 	{#if errorMessages.length > 0}
 		<div class="text-red-500 dark:text-red-400 my-4 text-sm text-start space-y-1">
 			{#each errorMessages as message}
-				<p>• {message}</p>
+				<p>{message}</p>
 			{/each}
 		</div>
 	{/if}
 </div>
-

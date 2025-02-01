@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PhotoUploader from '$lib/photo-uploader/photo-uploader.svelte';
+	import ImageUploader from '$lib/image-uploader/image-uploader.svelte';
 	import Image from 'lucide-svelte/icons/image';
 
 	// Данные для загрузчиков
@@ -21,8 +21,8 @@
 
 <div class="container mx-auto p-4">
 	<div class="my-16 text-center" id="title">
-		<h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white md:text-4xl">PhotoUploader Examples</h1>
-		<p class="text-neutral-950 dark:text-white">A showcase of PhotoUploader components with dynamic data.</p>
+		<h1 class="mb-3 text-3xl font-extrabold text-neutral-950 dark:text-white md:text-4xl">ImageUploader Examples</h1>
+		<p class="text-neutral-950 dark:text-white">A showcase of ImageUploader components with dynamic data.</p>
 	</div>
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
@@ -33,8 +33,8 @@
 					${index % 2 !== 0 ? 'border-l' : ''}`}
 			>
 				<div class="w-full">
-					<!-- Компонент PhotoUploader -->
-					<PhotoUploader
+					<!-- Компонент ImageUploader -->
+					<ImageUploader
 						icon={Image}
 						iconProps={{ size: 48, strokeWidth: 1 }}
 						title={uploader.title}

@@ -26,7 +26,7 @@
         { name: 'Tooltip', href: '/tooltip' },
         { name: 'Toggle', href: '/toggle' },
         { name: 'Toggle Group', href: '/toggle-group' },
-        { name: 'Photo Uploader', href: '/photo-uploader' },
+        { name: 'Image Uploader', href: '/image-uploader' },
         { name: 'Test', href: '/test' },
     ];
 </script>

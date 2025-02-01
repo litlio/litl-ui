@@ -1,21 +1,28 @@
 <script lang="ts">
-  import { ToggleGroup } from "$lib/index.js";
-  let selectedValues = $state<string[]>([]);
+import ImageUploader from "$lib/image-uploader/image-uploader.svelte";
+let files = $state(null as FileList | null);
+// Фейковая функция обратного вызова для имитации отправки файлов.
+async function fakeOnUpload(filesArray: File[]): Promise<void> {
+    console.log("Fake uploading files:", filesArray);
+    // Симулируем асинхронную операцию (например, задержку 1 секунда).
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log("Fake upload complete.");
+  }
 
-    const toggleConfig = {
-        type: "multiple" as const,
-        disabled: false,
-        rounded: true,
-        variant: "outline" as const,
-        items: [
-            { value: "studio", children: "Студия", ariaLabel: "Toggle Studio" },
-            { value: "1", children: "1", ariaLabel: "Toggle 1" },
-            { value: "2", children: "2", ariaLabel: "Toggle 2" },
-            { value: "3", children: "3", ariaLabel: "Toggle 3" },
-            { value: "4", children: "4", ariaLabel: "Toggle 4" }
-        ]
-    };
-    
+// Обработчик отправки формы.
+function handleSubmit(event: Event) {
+    // Отменяем стандартное поведение формы.
+    event.preventDefault();
+    console.log("Submitted files (from bind):", files);
+    if (files) {
+      // Выводим информацию по каждому файлу.
+      for (let i = 0; i < files.length; i++) {
+        console.log(`File ${i + 1}:`, files[i]);
+      }
+    } else {
+      console.log("No files submitted.");
+    }
+  }
 </script>
 
 <div class="min-h-screen bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-center">
@@ -24,24 +31,16 @@
 
   <!-- Flex-контейнер для скелетонов -->
   <div class="flex items-center space-x-4">
-    <ToggleGroup.Root
-      bind:value={selectedValues}
-      type={toggleConfig.type}
-      disabled={toggleConfig.disabled}
-      rounded={toggleConfig.rounded}
-      variant={toggleConfig.variant}
-      size="large"
-  >
-      {#each toggleConfig.items as item}
-          <ToggleGroup.Item 
-              value={item.value}
-              ariaLabel={item.ariaLabel}
-          >
-              {item.children}
-          </ToggleGroup.Item>
-      {/each}
-  </ToggleGroup.Root>
+    <form onsubmit={handleSubmit}>
+        <!-- Используем компонент и привязываем bind:files для двусторонней синхронизации -->
+        <ImageUploader bind:files={files} onUpload={fakeOnUpload} />
 
+        
+        <!-- Кнопка для отправки формы -->
+        <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+          Отправить
+        </button>
+      </form>
   </div>
 </div>
 </div>
