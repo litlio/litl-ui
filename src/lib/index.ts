@@ -44,7 +44,7 @@ export { default as Toggle} from './toggle/toggle.svelte';
 export { default as ToggleGroup} from './toggle-group/index.js';
 // Tooltip
 export { default as Tooltip} from './tooltip/index.js';
-// PhotoUploader
-export { default as PhotoUploader } from './photo-uploader/photo-uploader.svelte';
+// ImageUploader
+export { default as ImageUploader } from './image-uploader/image-uploader.svelte';
 // Carousel
 export { default as Carousel} from './carousel/index.js';
