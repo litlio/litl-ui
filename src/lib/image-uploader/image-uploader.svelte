@@ -162,6 +162,20 @@
 	let externalUpdate = false;
 
 	$effect(() => {
+  if (!externalUpdate) {
+    const dt = new DataTransfer();
+    images.forEach(img => dt.items.add(img.file));
+    const computedFiles = dt.files;
+    if (!files || files.length !== computedFiles.length) {
+      internalUpdate = true;
+      files = computedFiles;
+      internalUpdate = false;
+    }
+  }
+});
+
+
+	$effect(() => {
 	if (!internalUpdate && files) {
 		// Если в files добавилось больше файлов, чем уже в images,
 		// значит пользователь добавил новые файлы.
