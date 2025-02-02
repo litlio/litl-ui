@@ -160,41 +160,50 @@
 	// Флаги для предотвращения циклических обновлений между images и files
 	let internalUpdate = false;
 	let externalUpdate = false;
+	// Переменная для отслеживания предыдущего количества файлов в files
+	let prevFilesLength = 0;
 
+	// Эффект для синхронизации файлов с состоянием изображений
 	$effect(() => {
-  if (!externalUpdate) {
-    const dt = new DataTransfer();
-    images.forEach(img => dt.items.add(img.file));
-    const computedFiles = dt.files;
-    if (!files || files.length !== computedFiles.length) {
-      internalUpdate = true;
-      files = computedFiles;
-      internalUpdate = false;
-    }
-  }
-});
-
-
-	$effect(() => {
-	if (!internalUpdate && files) {
-		// Если в files добавилось больше файлов, чем уже в images,
-		// значит пользователь добавил новые файлы.
-		if (files.length > images.length) {
-			externalUpdate = true;
-			// Определим, какие файлы новые.
-			const existingFiles = images.map(img => img.file);
-			const newFiles = Array.from(files).filter(file => !existingFiles.includes(file));
-			// Добавляем только новые файлы.
-			addFiles(newFiles).then(() => {
-				externalUpdate = false;
-			});
+		if (!externalUpdate) {
+			const dt = new DataTransfer();
+			images.forEach(img => dt.items.add(img.file));
+			const computedFiles = dt.files;
+			if (!files || files.length !== computedFiles.length) {
+				internalUpdate = true;
+				files = computedFiles;
+				internalUpdate = false;
+			}
 		}
-		// Если files.length меньше или равно images.length,
-		// значит файлы были удалены — в этом случае ничего не делаем.
-	}
-});
+	});
 
+	// Эффект для обработки добавления новых файлов
+	$effect(() => {
+		if (!internalUpdate && files) {
+			// Если количество файлов увеличилось – значит, добавлены новые файлы
+			if (files.length > prevFilesLength) {
+				externalUpdate = true;
+				const existingFiles = images.map(img => img.file);
+				const newFiles = Array.from(files).filter(file => !existingFiles.includes(file));
+				if (newFiles.length > 0) {
+					addFiles(newFiles).then(() => {
+						externalUpdate = false;
+						if (files) {
+							prevFilesLength = files.length;
+						}
+					});
+
+				} else {
+					prevFilesLength = files.length;
+				}
+			} else {
+				// Если файлов стало меньше (удаление) – обновляем prevFilesLength и ничего не делаем
+				prevFilesLength = files.length;
+			}
+		}
+	});
 </script>
+
 
 <!-- Разметка компонента -->
 <div class="w-full">
