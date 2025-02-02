@@ -1,7 +1,7 @@
 {
 	"name": "litl-ui",
 	"license": "MIT",
-	"version": "1.0.0-alpha.30",
+	"version": "1.0.0-alpha.31",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
