@@ -161,32 +161,25 @@
 	let internalUpdate = false;
 	let externalUpdate = false;
 
-	// Эффект: при изменении images обновляем двусторонне привязанный FileList
 	$effect(() => {
-		if (!externalUpdate) {
-			const dt = new DataTransfer();
-			images.forEach(img => dt.items.add(img.file));
-			const computedFiles = dt.files;
-			if (!files || files.length !== computedFiles.length) {
-				internalUpdate = true;
-				files = computedFiles;
-				internalUpdate = false;
-			}
+	if (!internalUpdate && files) {
+		// Если в files добавилось больше файлов, чем уже в images,
+		// значит пользователь добавил новые файлы.
+		if (files.length > images.length) {
+			externalUpdate = true;
+			// Определим, какие файлы новые.
+			const existingFiles = images.map(img => img.file);
+			const newFiles = Array.from(files).filter(file => !existingFiles.includes(file));
+			// Добавляем только новые файлы.
+			addFiles(newFiles).then(() => {
+				externalUpdate = false;
+			});
 		}
-	});
+		// Если files.length меньше или равно images.length,
+		// значит файлы были удалены — в этом случае ничего не делаем.
+	}
+});
 
-	// Эффект: при внешнем изменении files обновляем внутреннее состояние images
-	$effect(() => {
-		if (!internalUpdate && files) {
-			if (files.length !== images.length) {
-				externalUpdate = true;
-				images = [];
-				addFiles(Array.from(files)).then(() => {
-					externalUpdate = false;
-				});
-			}
-		}
-	});
 </script>
 
 <!-- Разметка компонента -->
