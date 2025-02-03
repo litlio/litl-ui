@@ -15,9 +15,7 @@
 
 	// Тип пропсов компонента
 	type ImageUploaderProps = {
-		/** Callback, который получает список новых файлов с их id. Родитель может использовать id для сопоставления с S3-именем */
-		onUpload?: (images: { id: string; file: File }[]) => Promise<void> | void;
-		/** Callback, вызываемый при удалении файла (передаётся id) */
+		onUpload?: (files: File[]) => Promise<void> | void;
 		onRemove?: (imageId: string) => void;
 		maxFiles?: number;
 		maxSizeMB?: number;
@@ -26,12 +24,11 @@
 		iconProps?: Record<string, unknown>;
 		title?: string;
 		description?: string;
-		/** Для двусторонней привязки файлов. С  Svelte 5 можно использовать FileList */
 		files?: FileList | null;
 	};
 
 	// Деструктуризация входных пропсов.
-	// Используем $bindable() для двусторонней привязки файлов, чтобы родитель мог получать актуальное значение.
+	// Для двусторонней привязки файлов используем $bindable с указанием типа.
 	let {
 		onUpload = undefined,
 		onRemove = undefined,
@@ -50,7 +47,7 @@
 	let errorMessages = $state<string[]>([]);
 	let fileInput: HTMLInputElement | null = null;
 
-	// Функция для генерации уникального идентификатора
+	// Вспомогательная функция для генерации UUID
 	function generateUUID(): string {
 		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
 			return crypto.randomUUID();
@@ -58,27 +55,26 @@
 		return `_${Math.random().toString(36).slice(2, 9)}`;
 	}
 
-	// Обработка drag & drop.
-	// Вместо непосредственного вызова processFiles мы обновляем переменную files – эффект ниже среагирует.
-	const handleDrop = (event: DragEvent) => {
+	// Обработка перетаскивания файлов (drag & drop)
+	const handleDrop = async (event: DragEvent) => {
 		event.preventDefault();
 		errorMessages = [];
-		const dt = new DataTransfer();
-		if (event.dataTransfer?.files) {
-			for (const file of event.dataTransfer.files) {
-				dt.items.add(file);
-			}
-			// Присваиваем новый FileList привязанной переменной, что запустит эффект обработки.
-			files = dt.files;
+		const droppedFiles = event.dataTransfer?.files;
+		if (droppedFiles) await processFiles(Array.from(droppedFiles));
+	};
+
+	// Обработка выбора файлов через input
+	const handleInput = async (event: Event) => {
+		errorMessages = [];
+		const input = event.target as HTMLInputElement;
+		const selectedFiles = input.files;
+		if (selectedFiles) {
+			await processFiles(Array.from(selectedFiles));
+			input.value = '';
 		}
 	};
 
-	// При изменении input’а можно, если нужно, сбрасывать ошибки.
-	const handleInput = () => {
-		errorMessages = [];
-	};
-
-	// Функция валидации и фильтрации выбранных файлов.
+	// Валидация и фильтрация выбранных файлов
 	const processFiles = async (filesArray: File[]) => {
 		const newErrors: string[] = [];
 		const validFiles: File[] = [];
@@ -111,7 +107,7 @@
 		}
 	};
 
-	// Функция добавления файлов: генерирует id, создаёт превью через FileReader и вызывает onUpload.
+	// Добавление файлов в состояние и создание превью
 	const addFiles = async (filesArray: File[]) => {
 		const newImages = filesArray.map(file => ({
 			id: generateUUID(),
@@ -120,26 +116,26 @@
 			loading: true
 		}));
 
-		// Обновляем локальное состояние изображений.
+		// Обновляем состояние изображений
 		images = [...images, ...newImages];
 
-		// Создаём превью для каждого файла.
+		// Для каждого файла создаём data URL через FileReader
 		newImages.forEach(img => {
 			const reader = new FileReader();
 			reader.onload = () => {
-				const idx = images.findIndex(i => i.id === img.id);
-				if (idx !== -1) {
-					images[idx].preview = reader.result as string;
-					images[idx].loading = false;
+				const image = images.find(i => i.id === img.id);
+				if (image) {
+					image.preview = reader.result as string;
+					image.loading = false;
 				}
 			};
 			reader.readAsDataURL(img.file);
 		});
 
-		// Вызываем onUpload с уже сгенерированными id.
+		// Если задан callback onUpload, вызываем его с массивом новых файлов
 		if (onUpload) {
 			try {
-				await onUpload(newImages.map(({ id, file }) => ({ id, file })));
+				await onUpload(filesArray);
 			} catch (e) {
 				errorMessages = [
 					...errorMessages,
@@ -149,22 +145,25 @@
 		}
 	};
 
-	// Удаление изображения по id.
+	// Удаление изображения по идентификатору
 	const removeImage = (id: string) => {
-		images = images.filter(img => img.id !== id);
-		onRemove?.(id);
-		if (images.length === 0) {
-			errorMessages = [];
+		const index = images.findIndex(img => img.id === id);
+		if (index > -1) {
+			images = images.filter(img => img.id !== id);
+			onRemove?.(id);
+			if (images.length === 0) {
+				errorMessages = [];
+			}
 		}
 	};
 
-	// Флаги для предотвращения циклических обновлений между images и files.
+	// Флаги для предотвращения циклических обновлений между images и files
 	let internalUpdate = false;
 	let externalUpdate = false;
-	// Для отслеживания предыдущего количества файлов в bound файлах.
+	// Переменная для отслеживания предыдущего количества файлов в files
 	let prevFilesLength = 0;
 
-	// Эффект 1: При изменении массива images обновляем привязанный FileList.
+	// Эффект для синхронизации файлов с состоянием изображений
 	$effect(() => {
 		if (!externalUpdate) {
 			const dt = new DataTransfer();
@@ -178,29 +177,33 @@
 		}
 	});
 
-	// Эффект 2: Если внешний FileList изменился (например, через input или drag & drop),
-	// обрабатываем новые файлы, которых ещё нет в images.
+	// Эффект для обработки добавления новых файлов
 	$effect(() => {
 		if (!internalUpdate && files) {
+			// Если количество файлов увеличилось – значит, добавлены новые файлы
 			if (files.length > prevFilesLength) {
 				externalUpdate = true;
 				const existingFiles = images.map(img => img.file);
-				// Выбираем только те файлы, которые ещё не добавлены
 				const newFiles = Array.from(files).filter(file => !existingFiles.includes(file));
 				if (newFiles.length > 0) {
 					addFiles(newFiles).then(() => {
 						externalUpdate = false;
-						prevFilesLength = files ? files.length : 0;
+						if (files) {
+							prevFilesLength = files.length;
+						}
 					});
+
 				} else {
 					prevFilesLength = files.length;
 				}
 			} else {
+				// Если файлов стало меньше (удаление) – обновляем prevFilesLength и ничего не делаем
 				prevFilesLength = files.length;
 			}
 		}
 	});
 </script>
+
 
 <!-- Разметка компонента -->
 <div class="w-full">
@@ -229,14 +232,12 @@
 			<p class="text-neutral-700 dark:text-neutral-600 text-sm">{description}</p>
 		{/if}
 
-		<!-- Здесь используется привязка files, чтобы родитель мог получать FileList, а изменения автоматически обрабатывались -->
 		<input
 			type="file"
 			multiple
 			accept={allowedTypes.join(',')}
 			class="hidden"
 			bind:this={fileInput}
-			bind:files={files}
 			onchange={handleInput}
 		/>
 	</div>
