@@ -15,7 +15,7 @@
 
 	// Тип пропсов компонента
 	type ImageUploaderProps = {
-		onUpload?: (files: File[]) => Promise<void> | void;
+		onUpload?: (images: { id: string; file: File }[]) => Promise<void> | void;
 		onRemove?: (imageId: string) => void;
 		maxFiles?: number;
 		maxSizeMB?: number;
@@ -135,7 +135,7 @@
 		// Если задан callback onUpload, вызываем его с массивом новых файлов
 		if (onUpload) {
 			try {
-				await onUpload(filesArray);
+				await onUpload(newImages.map(({ id, file }) => ({ id, file })));
 			} catch (e) {
 				errorMessages = [
 					...errorMessages,
