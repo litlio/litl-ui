@@ -17,7 +17,7 @@
 </script>
 
 {#if scrollSnaps.length > 0}
-    <div class="flex gap-2 justify-center mt-4">
+    <div class="flex gap-2 justify-center">
         {#each scrollSnaps as _, index}
             <button
                 class="w-2 h-2 rounded-full transition-all {index === selectedSnap ? 'bg-black' : 'bg-neutral-200'}"

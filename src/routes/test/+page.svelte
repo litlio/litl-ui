@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Embla from "$lib/embla/index.js";
+  import Carousel from "$lib/carousel/index.js";
   import { Card } from "$lib/index.js";
 
 </script>
@@ -9,10 +9,10 @@
     <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Test component page</h1>      
 
 
-    <Embla.Root className="w-full max-w-xs">
-      <Embla.Container>
+    <Carousel.Root className="w-full max-w-xs">
+      <Carousel.Container>
         {#each Array(10) as _, i (i)}
-          <Embla.Slide>
+          <Carousel.Slide>
             <div class="p-1">
               <Card.Root>
                 <Card.Content
@@ -22,22 +22,22 @@
                 </Card.Content>
               </Card.Root>
             </div>
-          </Embla.Slide>
+          </Carousel.Slide>
         {/each}
-      </Embla.Container>
+      </Carousel.Container>
     
       <!-- 🔥 Новый контейнер для кнопок и точек -->
       <div class="flex items-center justify-between mt-4">
         <!-- 🔹 Блок с кнопками -->
         <div class="flex gap-2">
-          <Embla.Previous />
-          <Embla.Next />
+          <Carousel.Previous />
+          <Carousel.Next />
         </div>
     
         <!-- 🔹 Блок с точками -->
-        <Embla.Dots />
+        <Carousel.Dots />
       </div>
-    </Embla.Root>
+    </Carousel.Root>
     
     
   </div>

@@ -1,30 +1,30 @@
 <script lang="ts">
-    import ChevronRight from 'lucide-svelte/icons/chevron-right';
     import { getContext } from 'svelte';
+    import ChevronRight from 'lucide-svelte/icons/chevron-right';
 
-    const { carouselState, isHovered } = getContext<{
-        carouselState: {
-            get: () => any;
-            isEnd: () => boolean;
-        };
-        isHovered: () => boolean;
-    }>('embla');
+    type propsT = { className?: string };
+    let { className = "" }: propsT = $props();
 
-    let isVisible = $state(() => isHovered() && !carouselState.isEnd());
+    // ✅ Получаем `carouselState` без деструктуризации
+    const carouselState = getContext<{ get: () => { scrollNext: () => void, canScrollNext: boolean } }>("carouselState");
 
-    const handleClick = () => {
+    function handleClick() {
+        if (!carouselState) return;
+
         const embla = carouselState.get();
-        embla?.scrollNext();
-    };
+        if (embla?.canScrollNext) embla.scrollNext(); // ✅ Проверяем возможность скролла перед вызовом
+    }
 </script>
 
 <button
-    class={`absolute top-1/2 right-4 transform -translate-y-1/2 z-10 rounded-full p-3 bg-white/90 hover:bg-white text-black transition-opacity duration-300 ${
-        isVisible() ? 'opacity-100' : 'opacity-0 pointer-events-none'
-    }`}
+    class="w-10 h-10 flex items-center justify-center rounded-full border border-neutral-200 bg-white transition-all 
+           disabled:opacity-50 disabled:cursor-not-allowed 
+           hover:bg-neutral-100 active:bg-neutral-200 
+           disabled:hover:bg-white disabled:active:bg-white {className}"
     onclick={handleClick}
+    disabled={!carouselState.get().canScrollNext}
 >
-    <ChevronRight size={16} />
+    <ChevronRight size={16} class="text-black" />
 </button>
 
 
@@ -32,6 +32,4 @@
 
 
 
-
-
-
+  
