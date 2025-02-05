@@ -5,12 +5,13 @@
   import type { Snippet } from 'svelte';
 
   type propsT = {
+      className?: string;
       options?: Record<string, unknown>;
       plugins?: any[];
       children: Snippet;
   };
 
-  let { options = { loop: false, align: 'center', speed: 0 }, plugins = [], children }: propsT = $props();
+  let { className = "", options = { loop: false, align: 'center', speed: 0 }, plugins = [], children }: propsT = $props();
 
   // ✅ Создаем экземпляр карусели
   const carouselState = createCarouselState();
@@ -24,21 +25,7 @@
 </script>
 
 <div class="relative">
-  <div class="overflow-hidden" use:emblaCarouselSvelte={{ options, plugins }} onemblaInit={onInit}>
+  <div class="overflow-hidden {className}" use:emblaCarouselSvelte={{ options, plugins }} onemblaInit={onInit}>
       {@render children()}
   </div>
 </div>
-
-
-
-
-
-<!--
-<div class="embla" use:emblaCarouselSvelte>
-  <div class="embla__container">
-    <div class="embla__slide">Slide 1</div>
-    <div class="embla__slide">Slide 2</div>
-    <div class="embla__slide">Slide 3</div>
-  </div>
-</div>
--->

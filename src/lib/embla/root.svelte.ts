@@ -1,34 +1,43 @@
 export function createCarouselState() {
-    let embla = $state<any>(null);  // Храним экземпляр карусели
-
-    // Реактивные переменные для отслеживания состояния прокрутки
+    let embla = $state<any>(null);
     let canScrollPrev = $state(false);
     let canScrollNext = $state(false);
+    let scrollSnaps = $state<number[]>([]);
+    let selectedSnap = $state(0);
 
-    // ✅ Устанавливаем карусель
     function set(instance: any) {
-        embla = instance;  // Сохраняем экземпляр
+        embla = instance;
 
-        // Обновляем состояние при смене слайда
         function updateState() {
+            if (!instance) return;
+
             canScrollNext = instance.canScrollNext();
             canScrollPrev = instance.canScrollPrev();
+
+            // ✅ Заполняем `scrollSnaps`, если он ещё не инициализирован
+            if (scrollSnaps.length === 0) {
+                scrollSnaps = instance.scrollSnapList();
+            }
+
+            // ✅ Обновляем `selectedSnap` только в `select`
+            selectedSnap = instance.selectedScrollSnap();
         }
 
-        instance.on('select', updateState);
-        instance.on('scroll', updateState);
+        instance.on('select', updateState); // ⚡ Теперь обновляется только при смене слайда
+        instance.on('init', updateState); // 🔥 Гарантируем, что `scrollSnaps` будет заполнен сразу
 
-        // Вызываем сразу, чтобы обновить состояние после инициализации
-        updateState();
+        updateState(); // Вызываем сразу после инициализации
     }
 
-    // ✅ Получаем методы скролла
     function get() {
         return {
-            scrollPrev: () => embla && embla.scrollPrev(),
-            scrollNext: () => embla && embla.scrollNext(),
+            scrollPrev: () => embla?.scrollPrev(),
+            scrollNext: () => embla?.scrollNext(),
+            scrollTo: (index: number) => embla?.scrollTo(index),
             canScrollPrev,
-            canScrollNext
+            canScrollNext,
+            scrollSnaps,
+            selectedSnap
         };
     }
 

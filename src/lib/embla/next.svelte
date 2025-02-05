@@ -1,9 +1,10 @@
 <script lang="ts">
     import { getContext } from 'svelte';
     import type { Snippet } from 'svelte';
+    import ChevronRight from 'lucide-svelte/icons/chevron-right';
 
-    type propsT = { className?: string, children: Snippet };
-    let { className = "", children }: propsT = $props();
+    type propsT = { className?: string };
+    let { className = "" }: propsT = $props();
 
     // ✅ Получаем `carouselState` без деструктуризации
     const carouselState = getContext<{ get: () => { scrollNext: () => void } }>("carouselState");
@@ -16,8 +17,11 @@
     }
 </script>
 
-<button class="{className}" onclick={handleClick}>
-    {@render children()}
+<button
+    class="w-10 h-10 flex items-center justify-center rounded-full border border-neutral-200 bg-white hover:bg-neutral-100 active:bg-neutral-200 transition-all {className}"
+    onclick={handleClick}
+>
+    <ChevronRight size={16} class="text-black" />
 </button>
 
 

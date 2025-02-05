@@ -9,9 +9,7 @@
 
     let { vertical = false, className = "", children }: propsT = $props();
 
-    let containerClasses = $derived.by(() => `
-        flex ${vertical ? 'flex-col h-[200px]' : ''}
-    `);
+    let containerClasses = $derived.by(() => `flex ${vertical ? 'flex-col h-[200px]' : ''}`);
 </script>
 
 <div class="{containerClasses} {className}">
