@@ -28,6 +28,7 @@
         { name: 'Toggle Group', href: '/toggle-group' },
         { name: 'Image Uploader', href: '/image-uploader' },
         { name: 'Test', href: '/test' },
+        { name: 'Stage', href: '/stage' },
     ];
 </script>
 

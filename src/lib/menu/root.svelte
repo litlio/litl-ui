@@ -11,8 +11,9 @@
 	};
 	let { class: klass = '', alignment = 'left', children = undefined }: propsT = $props();
 
+	// Инициализация состояния
 	const rootState = createRootState({
-		isMobile: false,
+		isMobile: false,     // ← Мобильную логику временно отключаем
 		isActive: false,
 		alignment: alignment,
 		contentPosition: 'top-[112%]',
@@ -21,6 +22,8 @@
 
 	setContext('menu', rootState);
 
+	// Закомментируем эффект, который вычислял "isMobile"
+	/*
 	$effect(() => {
 		if (window.innerWidth < 767) {
 			rootState.setIsMobile(true);
@@ -35,16 +38,21 @@
 			}
 		});
 	});
+	*/
 </script>
 
-{#if rootState.getIsActive()}
+<!-- 
+// Закомментируем код показа "мобильной" подложки
+{#if rootState.getIsActive() && rootState.getIsMobile()}
 	<div
 		in:fade|local
 		out:fade|local
-		class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-[0.4] lg:hidden z-[1000]"
+		class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-[0.4] z-[1000]"
 	></div>
 {/if}
+-->
 
+<!-- Теперь остаётся только контейнер для "клика снаружи" и children -->
 <div use:clickAnywhere={() => rootState.setIsActive(false)} class="relative inline-block {klass}">
 	{#if children}
 		{@render children()}
