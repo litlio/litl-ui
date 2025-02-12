@@ -17,20 +17,20 @@
 </script>
 
 {#if rootState.getIsActive()}
-	<div
-		in:fly={{ y: rootState.getTransY() }}
-		out:fly={{ y: rootState.getTransY() }}
-		class="fixed z-[1099] {klass}"
-		style={rootState.getContentPosition()}
-	>
-		<div
-			class="hide-scrollbar bg-white dark:bg-neutral-950 p-2 rounded-[12px]
-			       border border-neutral-200 dark:border-neutral-800 shadow-sm
-			       scroll-smooth overflow-y-auto
-			"
-		>
-			{@render children()}
-		</div>
-	</div>
+<div
+    in:fly={{ y: rootState.getTransY() }}
+    out:fly={{ y: rootState.getTransY() }}
+    class="fixed z-[1099] {klass}"
+    style={rootState.getContentPosition()}
+>
+    <div
+        class="hide-scrollbar bg-white dark:bg-neutral-950 p-2 rounded-[12px]
+               border border-neutral-200 dark:border-neutral-800 shadow-sm
+               scroll-smooth overflow-y-auto max-h-[80vh] min-w-[120px]"
+        style={`max-width: ${window.innerWidth - 16}px;`}
+    >
+        {@render children()}
+    </div>
+</div>
 {/if}
 

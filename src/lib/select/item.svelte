@@ -18,7 +18,7 @@
 	}>('select');
 </script>
 
-<button
+<button type="button"
 	onclick={() => {
 		rootState.setSelected(value);
 		rootState.setIsActive(false);

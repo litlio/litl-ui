@@ -33,56 +33,52 @@
 	const menuWidth = 200;
 	const menuHeight = 250;
 
-	// Небольшой вертикальный отступ между кнопкой и меню
-	const offsetY = 8;
+    // Увеличим offsetY для лучшего визуального разделения
+    const offsetY = 8;
+    // Добавим offsetX для минимального отступа от краев экрана
+    const offsetX = 8;
 
-	function toggle(evt: Event) {
-		const target = evt.currentTarget as HTMLElement;
-		const rect = target.getBoundingClientRect();
+    function toggle(evt: Event) {
+        const target = evt.currentTarget as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
 
-		const viewportWidth = window.innerWidth;
-		const viewportHeight = window.innerHeight;
+        // Вертикальное позиционирование
+        let top: number;
+        let transY: number;
+        const spaceBelow = viewportHeight - rect.bottom - offsetY;
+        const spaceAbove = rect.top - offsetY;
 
-		// -----------------------------
-		// 1) Вертикальное положение
-		// -----------------------------
-		// По умолчанию "снизу" кнопки
-		let top = rect.bottom + offsetY;
-		let transY = -10; // для анимации "вылета" чуть сверху
+        // Выбираем направление с максимальным доступным пространством
+        if (spaceBelow >= menuHeight || spaceBelow > spaceAbove) {
+            top = rect.bottom + offsetY;
+            transY = -10;
+        } else {
+            top = rect.top - menuHeight - offsetY;
+            transY = 10;
+        }
 
-		const spaceBelow = viewportHeight - rect.bottom;
-		if (spaceBelow < menuHeight) {
-			// Места снизу мало → открываем над кнопкой
-			top = rect.top - menuHeight - offsetY;
-			transY = 10;  // анимация прилетает снизу
-		}
+        // Горизонтальное позиционирование
+        const buttonCenterX = rect.left + rect.width / 2;
+        let left = buttonCenterX - menuWidth / 2;
 
-		// -----------------------------
-		// 2) Горизонтальное положение
-		// -----------------------------
-		// Пытаемся "прилипнуть" к левой границе кнопки
-		let left = rect.left;
+        // Корректировка для правого края
+        if (left + menuWidth > viewportWidth - offsetX) {
+            left = viewportWidth - menuWidth - offsetX;
+        }
+        
+        // Корректировка для левого края
+        if (left < offsetX) {
+            left = offsetX;
+        }
 
-		// Сколько места справа от левой границы:
-		const spaceRight = viewportWidth - rect.left;
-		if (spaceRight < menuWidth) {
-			// Если справа нет места, прижимаемся к правой границе (раскрываемся влево)
-			left = rect.right - menuWidth;
-			// А вдруг button очень узкая и rect.right < menuWidth (у левого края)? 
-			// Тогда проверим, чтобы всё равно не выскочило за экран:
-			if (left < 0) left = 0; 
-		}
-
-		// Собираем финальный inline-стиль
-		const styleStr = `top: ${top}px; left: ${left}px;`;
-
-		// Применяем к меню
-		rootState.setContentPosition(styleStr);
-		rootState.setTransY(transY);
-
-		// Открываем/закрываем
-		rootState.setIsActive(!rootState.getIsActive());
-	}
+        // Применяем позиционирование
+        rootState.setContentPosition(`top: ${top}px; left: ${left}px;`);
+        rootState.setTransY(transY);
+        rootState.setIsActive(!rootState.getIsActive());
+    }
 </script>
 
 {#if children}
